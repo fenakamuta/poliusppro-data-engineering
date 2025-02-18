@@ -11,8 +11,7 @@ def lambda_handler(event, context):
     topic = event.get("topic")
     n_posts = int(event.get("n_posts", 10))
     csv_path = f"/tmp/{topic}.csv"
-    object_path = f"topics_raw/{topic}/{datetime.now().isoformat()}.csv"
-
+    object_path = f"topics_raw/{topic}/{datetime.now().strftime('%Y-%m-%dT%H-%M-%S')}.csv"
 
     posts = search_posts_by_text(
         search_text=topic,

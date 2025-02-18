@@ -45,6 +45,7 @@ def lambda_handler(event, context):
 
     # Download the CSV file from S3 to the /tmp directory.
     input_csv_path = '/tmp/input.csv'
+    print(f"Object path: s3://{bucket}/{key}")
     s3_client.download_file(bucket, key, input_csv_path)
     print(f"Downloaded {key} from bucket {bucket}.")
 
