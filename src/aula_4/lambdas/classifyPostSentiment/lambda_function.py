@@ -64,7 +64,7 @@ def lambda_handler(event, context):
     # Save the enhanced DataFrame to a new CSV in the /tmp directory.
     enhanced_csv_path = '/tmp/enhanced.csv'
     df.drop("text", axis=1).to_csv(
-        posts_csv_path,
+        enhanced_csv_path,
         index=False,
         quotechar='"',
         escapechar='\\',
