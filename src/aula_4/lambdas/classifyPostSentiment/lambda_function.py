@@ -1,4 +1,5 @@
 import os
+import csv
 import json
 import boto3
 import pandas as pd
@@ -62,11 +63,17 @@ def lambda_handler(event, context):
 
     # Save the enhanced DataFrame to a new CSV in the /tmp directory.
     enhanced_csv_path = '/tmp/enhanced.csv'
-    df.to_csv(enhanced_csv_path, index=False)
+    df.drop("text", axis=1).to_csv(
+        posts_csv_path,
+        index=False,
+        quotechar='"',
+        escapechar='\\',
+        quoting=csv.QUOTE_ALL
+    )
     print("Enhanced CSV saved locally.")
 
     # Determine the new S3 key (for example, changing the folder from raw to enhanced).
-    new_key = key.replace("subreddits_raw/", "subreddits_enhanced/")
+    new_key = key.replace("topics_raw/", "topics_enhanced/")
     
     # Upload the enhanced CSV back to S3.
     s3_client.upload_file(enhanced_csv_path, bucket, new_key)
