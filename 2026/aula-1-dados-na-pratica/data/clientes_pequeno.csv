@@ -1,0 +1,101 @@
+id,nome,cidade,estado,categoria,valor_compra,data_compra
+1,Pedro Silva,Porto Alegre,RS,eletronicos,627.33,2025-05-23
+2,Thiago Souza,Recife,PE,eletronicos,1066.37,2025-01-31
+3,Júlia Santos,Fortaleza,CE,esporte,1513.01,2025-07-23
+4,Felipe Santos,Florianópolis,SC,moveis,1481.38,2025-01-07
+5,Felipe Costa,Porto Alegre,RS,eletronicos,405.59,2025-12-11
+6,Maria Pereira,Rio de Janeiro,RJ,esporte,910.27,2025-12-19
+7,Sofia Silva,Florianópolis,SC,eletronicos,1349.85,2026-01-23
+8,Thiago Lima,Recife,PE,esporte,2215.92,2026-01-06
+9,Júlia Souza,São Paulo,SP,eletronicos,1659.93,2025-10-24
+10,Lucas Souza,Brasília,DF,moveis,709.37,2026-01-09
+11,Rafael Costa,Curitiba,PR,esporte,1682.03,2025-03-15
+12,Bruno Carvalho,Curitiba,PR,vestuario,425.24,2026-01-24
+13,Thiago Santos,Salvador,BA,moveis,2110.27,2025-02-27
+14,João Costa,Brasília,DF,esporte,684.0,2025-08-05
+15,Beatriz Santos,Florianópolis,SC,moveis,1001.17,2026-04-15
+16,Sofia Oliveira,Curitiba,PR,esporte,1867.57,2025-09-27
+17,Felipe Ribeiro,Brasília,DF,esporte,917.75,2025-05-22
+18,Gabriel Souza,São Paulo,SP,moveis,2155.54,2025-06-06
+19,Felipe Ribeiro,Rio de Janeiro,RJ,esporte,974.22,2026-04-25
+20,Sofia Carvalho,São Paulo,SP,esporte,1707.1,2025-04-28
+21,Sofia Costa,Rio de Janeiro,RJ,livros,747.88,2025-06-11
+22,Ana Lima,Fortaleza,CE,vestuario,1909.67,2025-04-19
+23,Isabela Ribeiro,Curitiba,PR,esporte,399.04,2025-06-15
+24,Isabela Silva,Recife,PE,eletronicos,823.91,2025-01-20
+25,Rafael Lima,Curitiba,PR,eletronicos,163.65,2025-03-22
+26,Gabriel Souza,Fortaleza,CE,livros,1919.27,2025-05-12
+27,Thiago Oliveira,Porto Alegre,RS,moveis,1328.63,2026-03-10
+28,Thiago Santos,Porto Alegre,RS,livros,1009.5,2026-01-18
+29,Isabela Almeida,Rio de Janeiro,RJ,vestuario,634.81,2025-03-07
+30,Ana Ribeiro,Fortaleza,CE,eletronicos,590.68,2025-08-14
+31,Maria Silva,Curitiba,PR,vestuario,187.15,2025-02-02
+32,Maria Carvalho,Curitiba,PR,moveis,710.62,2026-05-13
+33,Thiago Oliveira,Recife,PE,livros,1449.0,2025-09-06
+34,Felipe Santos,Rio de Janeiro,RJ,vestuario,260.39,2026-03-18
+35,Felipe Pereira,Florianópolis,SC,eletronicos,2162.32,2025-02-25
+36,João Pereira,Salvador,BA,moveis,2005.47,2025-04-22
+37,Júlia Santos,Fortaleza,CE,moveis,1132.56,2026-03-09
+38,Sofia Almeida,Curitiba,PR,livros,2188.73,2025-03-19
+39,Thiago Souza,São Paulo,SP,eletronicos,1637.32,2025-01-16
+40,Lucas Oliveira,Brasília,DF,livros,1224.39,2025-08-07
+41,João Oliveira,Brasília,DF,vestuario,25.35,2026-02-04
+42,Larissa Lima,Brasília,DF,moveis,1747.55,2026-05-14
+43,Júlia Lima,Curitiba,PR,vestuario,2422.4,2025-03-04
+44,João Silva,Recife,PE,eletronicos,1202.44,2025-06-11
+45,Isabela Souza,Belo Horizonte,MG,moveis,189.93,2025-03-11
+46,Camila Souza,Recife,PE,esporte,630.61,2025-02-10
+47,Maria Pereira,Recife,PE,vestuario,1421.76,2025-11-20
+48,Júlia Costa,Curitiba,PR,vestuario,678.72,2025-05-15
+49,Larissa Costa,Rio de Janeiro,RJ,eletronicos,43.1,2025-04-13
+50,Thiago Santos,Fortaleza,CE,eletronicos,677.7,2025-12-24
+51,Lucas Costa,Porto Alegre,RS,esporte,411.21,2025-11-06
+52,Isabela Silva,Fortaleza,CE,moveis,762.46,2025-04-17
+53,Sofia Souza,Rio de Janeiro,RJ,vestuario,1861.19,2025-06-09
+54,Mateus Ribeiro,Curitiba,PR,vestuario,1799.68,2025-07-28
+55,Isabela Almeida,Porto Alegre,RS,eletronicos,2265.23,2025-02-22
+56,Felipe Lima,São Paulo,SP,vestuario,28.79,2025-05-14
+57,Bruno Almeida,Fortaleza,CE,eletronicos,1770.06,2025-01-10
+58,Maria Oliveira,Fortaleza,CE,esporte,109.35,2026-01-14
+59,Thiago Oliveira,Brasília,DF,vestuario,336.06,2025-11-12
+60,João Costa,Curitiba,PR,vestuario,1711.53,2025-04-16
+61,Thiago Pereira,Recife,PE,moveis,1878.7,2025-08-31
+62,Bruno Pereira,São Paulo,SP,livros,464.81,2025-12-07
+63,Lucas Lima,Belo Horizonte,MG,livros,1972.69,2025-04-21
+64,João Almeida,Curitiba,PR,vestuario,514.94,2026-04-17
+65,Mateus Santos,Curitiba,PR,livros,78.69,2025-07-17
+66,Beatriz Lima,Rio de Janeiro,RJ,vestuario,2417.88,2025-10-13
+67,Isabela Pereira,Fortaleza,CE,eletronicos,841.25,2025-01-29
+68,Sofia Oliveira,Recife,PE,eletronicos,2407.09,2025-09-29
+69,Pedro Ribeiro,Brasília,DF,livros,877.3,2025-11-18
+70,Diego Carvalho,Rio de Janeiro,RJ,vestuario,975.28,2025-07-14
+71,João Pereira,São Paulo,SP,vestuario,1309.4,2025-07-21
+72,Felipe Souza,Salvador,BA,vestuario,1565.43,2025-05-08
+73,Isabela Lima,Brasília,DF,esporte,828.93,2025-10-30
+74,Carla Santos,Brasília,DF,moveis,1669.02,2026-01-24
+75,Diego Ribeiro,Porto Alegre,RS,vestuario,1027.07,2025-01-01
+76,Mateus Santos,Brasília,DF,livros,1968.68,2025-11-26
+77,Larissa Almeida,Curitiba,PR,eletronicos,1287.71,2025-06-23
+78,Mateus Carvalho,Recife,PE,vestuario,851.27,2025-08-29
+79,Lucas Santos,Belo Horizonte,MG,livros,80.57,2025-09-08
+80,Diego Souza,Florianópolis,SC,livros,1047.81,2025-07-19
+81,Gabriel Pereira,Curitiba,PR,eletronicos,385.98,2025-01-06
+82,Felipe Santos,Belo Horizonte,MG,eletronicos,2014.19,2026-04-21
+83,Thiago Santos,Rio de Janeiro,RJ,esporte,1152.03,2026-04-21
+84,Thiago Ribeiro,Salvador,BA,esporte,2376.1,2026-03-30
+85,Isabela Pereira,Fortaleza,CE,livros,1125.87,2025-06-12
+86,Larissa Lima,Curitiba,PR,esporte,2102.86,2025-10-11
+87,Gabriel Santos,Porto Alegre,RS,moveis,1110.88,2025-10-20
+88,Sofia Costa,Salvador,BA,moveis,2234.71,2025-03-24
+89,Carla Santos,Brasília,DF,eletronicos,1741.0,2025-08-08
+90,Felipe Pereira,Salvador,BA,eletronicos,1365.68,2026-03-02
+91,Júlia Pereira,Brasília,DF,esporte,2264.0,2025-01-21
+92,Camila Almeida,São Paulo,SP,livros,2358.0,2025-11-02
+93,Felipe Carvalho,Fortaleza,CE,livros,2003.67,2025-08-14
+94,Lucas Lima,Brasília,DF,vestuario,1224.39,2026-02-03
+95,Camila Oliveira,Florianópolis,SC,livros,2300.46,2025-01-28
+96,Mariana Ribeiro,São Paulo,SP,moveis,228.19,2026-03-15
+97,Larissa Oliveira,São Paulo,SP,moveis,665.19,2025-12-02
+98,Larissa Costa,Salvador,BA,vestuario,1907.85,2026-01-24
+99,Felipe Lima,Rio de Janeiro,RJ,vestuario,1186.36,2025-02-23
+100,Lucas Souza,São Paulo,SP,moveis,1890.5,2025-09-11

@@ -1,0 +1,902 @@
+[
+  {
+    "id":1,
+    "nome":"Pedro Silva",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"eletronicos",
+    "valor_compra":627.33,
+    "data_compra":"2025-05-23"
+  },
+  {
+    "id":2,
+    "nome":"Thiago Souza",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"eletronicos",
+    "valor_compra":1066.37,
+    "data_compra":"2025-01-31"
+  },
+  {
+    "id":3,
+    "nome":"Júlia Santos",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"esporte",
+    "valor_compra":1513.01,
+    "data_compra":"2025-07-23"
+  },
+  {
+    "id":4,
+    "nome":"Felipe Santos",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"moveis",
+    "valor_compra":1481.38,
+    "data_compra":"2025-01-07"
+  },
+  {
+    "id":5,
+    "nome":"Felipe Costa",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"eletronicos",
+    "valor_compra":405.59,
+    "data_compra":"2025-12-11"
+  },
+  {
+    "id":6,
+    "nome":"Maria Pereira",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"esporte",
+    "valor_compra":910.27,
+    "data_compra":"2025-12-19"
+  },
+  {
+    "id":7,
+    "nome":"Sofia Silva",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"eletronicos",
+    "valor_compra":1349.85,
+    "data_compra":"2026-01-23"
+  },
+  {
+    "id":8,
+    "nome":"Thiago Lima",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"esporte",
+    "valor_compra":2215.92,
+    "data_compra":"2026-01-06"
+  },
+  {
+    "id":9,
+    "nome":"Júlia Souza",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"eletronicos",
+    "valor_compra":1659.93,
+    "data_compra":"2025-10-24"
+  },
+  {
+    "id":10,
+    "nome":"Lucas Souza",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"moveis",
+    "valor_compra":709.37,
+    "data_compra":"2026-01-09"
+  },
+  {
+    "id":11,
+    "nome":"Rafael Costa",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"esporte",
+    "valor_compra":1682.03,
+    "data_compra":"2025-03-15"
+  },
+  {
+    "id":12,
+    "nome":"Bruno Carvalho",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":425.24,
+    "data_compra":"2026-01-24"
+  },
+  {
+    "id":13,
+    "nome":"Thiago Santos",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"moveis",
+    "valor_compra":2110.27,
+    "data_compra":"2025-02-27"
+  },
+  {
+    "id":14,
+    "nome":"João Costa",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"esporte",
+    "valor_compra":684.0,
+    "data_compra":"2025-08-05"
+  },
+  {
+    "id":15,
+    "nome":"Beatriz Santos",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"moveis",
+    "valor_compra":1001.17,
+    "data_compra":"2026-04-15"
+  },
+  {
+    "id":16,
+    "nome":"Sofia Oliveira",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"esporte",
+    "valor_compra":1867.57,
+    "data_compra":"2025-09-27"
+  },
+  {
+    "id":17,
+    "nome":"Felipe Ribeiro",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"esporte",
+    "valor_compra":917.75,
+    "data_compra":"2025-05-22"
+  },
+  {
+    "id":18,
+    "nome":"Gabriel Souza",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"moveis",
+    "valor_compra":2155.54,
+    "data_compra":"2025-06-06"
+  },
+  {
+    "id":19,
+    "nome":"Felipe Ribeiro",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"esporte",
+    "valor_compra":974.22,
+    "data_compra":"2026-04-25"
+  },
+  {
+    "id":20,
+    "nome":"Sofia Carvalho",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"esporte",
+    "valor_compra":1707.1,
+    "data_compra":"2025-04-28"
+  },
+  {
+    "id":21,
+    "nome":"Sofia Costa",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"livros",
+    "valor_compra":747.88,
+    "data_compra":"2025-06-11"
+  },
+  {
+    "id":22,
+    "nome":"Ana Lima",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"vestuario",
+    "valor_compra":1909.67,
+    "data_compra":"2025-04-19"
+  },
+  {
+    "id":23,
+    "nome":"Isabela Ribeiro",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"esporte",
+    "valor_compra":399.04,
+    "data_compra":"2025-06-15"
+  },
+  {
+    "id":24,
+    "nome":"Isabela Silva",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"eletronicos",
+    "valor_compra":823.91,
+    "data_compra":"2025-01-20"
+  },
+  {
+    "id":25,
+    "nome":"Rafael Lima",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"eletronicos",
+    "valor_compra":163.65,
+    "data_compra":"2025-03-22"
+  },
+  {
+    "id":26,
+    "nome":"Gabriel Souza",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"livros",
+    "valor_compra":1919.27,
+    "data_compra":"2025-05-12"
+  },
+  {
+    "id":27,
+    "nome":"Thiago Oliveira",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"moveis",
+    "valor_compra":1328.63,
+    "data_compra":"2026-03-10"
+  },
+  {
+    "id":28,
+    "nome":"Thiago Santos",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"livros",
+    "valor_compra":1009.5,
+    "data_compra":"2026-01-18"
+  },
+  {
+    "id":29,
+    "nome":"Isabela Almeida",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":634.81,
+    "data_compra":"2025-03-07"
+  },
+  {
+    "id":30,
+    "nome":"Ana Ribeiro",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"eletronicos",
+    "valor_compra":590.68,
+    "data_compra":"2025-08-14"
+  },
+  {
+    "id":31,
+    "nome":"Maria Silva",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":187.15,
+    "data_compra":"2025-02-02"
+  },
+  {
+    "id":32,
+    "nome":"Maria Carvalho",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"moveis",
+    "valor_compra":710.62,
+    "data_compra":"2026-05-13"
+  },
+  {
+    "id":33,
+    "nome":"Thiago Oliveira",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"livros",
+    "valor_compra":1449.0,
+    "data_compra":"2025-09-06"
+  },
+  {
+    "id":34,
+    "nome":"Felipe Santos",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":260.39,
+    "data_compra":"2026-03-18"
+  },
+  {
+    "id":35,
+    "nome":"Felipe Pereira",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"eletronicos",
+    "valor_compra":2162.32,
+    "data_compra":"2025-02-25"
+  },
+  {
+    "id":36,
+    "nome":"João Pereira",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"moveis",
+    "valor_compra":2005.47,
+    "data_compra":"2025-04-22"
+  },
+  {
+    "id":37,
+    "nome":"Júlia Santos",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"moveis",
+    "valor_compra":1132.56,
+    "data_compra":"2026-03-09"
+  },
+  {
+    "id":38,
+    "nome":"Sofia Almeida",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"livros",
+    "valor_compra":2188.73,
+    "data_compra":"2025-03-19"
+  },
+  {
+    "id":39,
+    "nome":"Thiago Souza",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"eletronicos",
+    "valor_compra":1637.32,
+    "data_compra":"2025-01-16"
+  },
+  {
+    "id":40,
+    "nome":"Lucas Oliveira",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"livros",
+    "valor_compra":1224.39,
+    "data_compra":"2025-08-07"
+  },
+  {
+    "id":41,
+    "nome":"João Oliveira",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"vestuario",
+    "valor_compra":25.35,
+    "data_compra":"2026-02-04"
+  },
+  {
+    "id":42,
+    "nome":"Larissa Lima",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"moveis",
+    "valor_compra":1747.55,
+    "data_compra":"2026-05-14"
+  },
+  {
+    "id":43,
+    "nome":"Júlia Lima",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":2422.4,
+    "data_compra":"2025-03-04"
+  },
+  {
+    "id":44,
+    "nome":"João Silva",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"eletronicos",
+    "valor_compra":1202.44,
+    "data_compra":"2025-06-11"
+  },
+  {
+    "id":45,
+    "nome":"Isabela Souza",
+    "cidade":"Belo Horizonte",
+    "estado":"MG",
+    "categoria":"moveis",
+    "valor_compra":189.93,
+    "data_compra":"2025-03-11"
+  },
+  {
+    "id":46,
+    "nome":"Camila Souza",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"esporte",
+    "valor_compra":630.61,
+    "data_compra":"2025-02-10"
+  },
+  {
+    "id":47,
+    "nome":"Maria Pereira",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"vestuario",
+    "valor_compra":1421.76,
+    "data_compra":"2025-11-20"
+  },
+  {
+    "id":48,
+    "nome":"Júlia Costa",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":678.72,
+    "data_compra":"2025-05-15"
+  },
+  {
+    "id":49,
+    "nome":"Larissa Costa",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"eletronicos",
+    "valor_compra":43.1,
+    "data_compra":"2025-04-13"
+  },
+  {
+    "id":50,
+    "nome":"Thiago Santos",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"eletronicos",
+    "valor_compra":677.7,
+    "data_compra":"2025-12-24"
+  },
+  {
+    "id":51,
+    "nome":"Lucas Costa",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"esporte",
+    "valor_compra":411.21,
+    "data_compra":"2025-11-06"
+  },
+  {
+    "id":52,
+    "nome":"Isabela Silva",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"moveis",
+    "valor_compra":762.46,
+    "data_compra":"2025-04-17"
+  },
+  {
+    "id":53,
+    "nome":"Sofia Souza",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":1861.19,
+    "data_compra":"2025-06-09"
+  },
+  {
+    "id":54,
+    "nome":"Mateus Ribeiro",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":1799.68,
+    "data_compra":"2025-07-28"
+  },
+  {
+    "id":55,
+    "nome":"Isabela Almeida",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"eletronicos",
+    "valor_compra":2265.23,
+    "data_compra":"2025-02-22"
+  },
+  {
+    "id":56,
+    "nome":"Felipe Lima",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"vestuario",
+    "valor_compra":28.79,
+    "data_compra":"2025-05-14"
+  },
+  {
+    "id":57,
+    "nome":"Bruno Almeida",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"eletronicos",
+    "valor_compra":1770.06,
+    "data_compra":"2025-01-10"
+  },
+  {
+    "id":58,
+    "nome":"Maria Oliveira",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"esporte",
+    "valor_compra":109.35,
+    "data_compra":"2026-01-14"
+  },
+  {
+    "id":59,
+    "nome":"Thiago Oliveira",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"vestuario",
+    "valor_compra":336.06,
+    "data_compra":"2025-11-12"
+  },
+  {
+    "id":60,
+    "nome":"João Costa",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":1711.53,
+    "data_compra":"2025-04-16"
+  },
+  {
+    "id":61,
+    "nome":"Thiago Pereira",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"moveis",
+    "valor_compra":1878.7,
+    "data_compra":"2025-08-31"
+  },
+  {
+    "id":62,
+    "nome":"Bruno Pereira",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"livros",
+    "valor_compra":464.81,
+    "data_compra":"2025-12-07"
+  },
+  {
+    "id":63,
+    "nome":"Lucas Lima",
+    "cidade":"Belo Horizonte",
+    "estado":"MG",
+    "categoria":"livros",
+    "valor_compra":1972.69,
+    "data_compra":"2025-04-21"
+  },
+  {
+    "id":64,
+    "nome":"João Almeida",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"vestuario",
+    "valor_compra":514.94,
+    "data_compra":"2026-04-17"
+  },
+  {
+    "id":65,
+    "nome":"Mateus Santos",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"livros",
+    "valor_compra":78.69,
+    "data_compra":"2025-07-17"
+  },
+  {
+    "id":66,
+    "nome":"Beatriz Lima",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":2417.88,
+    "data_compra":"2025-10-13"
+  },
+  {
+    "id":67,
+    "nome":"Isabela Pereira",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"eletronicos",
+    "valor_compra":841.25,
+    "data_compra":"2025-01-29"
+  },
+  {
+    "id":68,
+    "nome":"Sofia Oliveira",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"eletronicos",
+    "valor_compra":2407.09,
+    "data_compra":"2025-09-29"
+  },
+  {
+    "id":69,
+    "nome":"Pedro Ribeiro",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"livros",
+    "valor_compra":877.3,
+    "data_compra":"2025-11-18"
+  },
+  {
+    "id":70,
+    "nome":"Diego Carvalho",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":975.28,
+    "data_compra":"2025-07-14"
+  },
+  {
+    "id":71,
+    "nome":"João Pereira",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"vestuario",
+    "valor_compra":1309.4,
+    "data_compra":"2025-07-21"
+  },
+  {
+    "id":72,
+    "nome":"Felipe Souza",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"vestuario",
+    "valor_compra":1565.43,
+    "data_compra":"2025-05-08"
+  },
+  {
+    "id":73,
+    "nome":"Isabela Lima",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"esporte",
+    "valor_compra":828.93,
+    "data_compra":"2025-10-30"
+  },
+  {
+    "id":74,
+    "nome":"Carla Santos",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"moveis",
+    "valor_compra":1669.02,
+    "data_compra":"2026-01-24"
+  },
+  {
+    "id":75,
+    "nome":"Diego Ribeiro",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"vestuario",
+    "valor_compra":1027.07,
+    "data_compra":"2025-01-01"
+  },
+  {
+    "id":76,
+    "nome":"Mateus Santos",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"livros",
+    "valor_compra":1968.68,
+    "data_compra":"2025-11-26"
+  },
+  {
+    "id":77,
+    "nome":"Larissa Almeida",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"eletronicos",
+    "valor_compra":1287.71,
+    "data_compra":"2025-06-23"
+  },
+  {
+    "id":78,
+    "nome":"Mateus Carvalho",
+    "cidade":"Recife",
+    "estado":"PE",
+    "categoria":"vestuario",
+    "valor_compra":851.27,
+    "data_compra":"2025-08-29"
+  },
+  {
+    "id":79,
+    "nome":"Lucas Santos",
+    "cidade":"Belo Horizonte",
+    "estado":"MG",
+    "categoria":"livros",
+    "valor_compra":80.57,
+    "data_compra":"2025-09-08"
+  },
+  {
+    "id":80,
+    "nome":"Diego Souza",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"livros",
+    "valor_compra":1047.81,
+    "data_compra":"2025-07-19"
+  },
+  {
+    "id":81,
+    "nome":"Gabriel Pereira",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"eletronicos",
+    "valor_compra":385.98,
+    "data_compra":"2025-01-06"
+  },
+  {
+    "id":82,
+    "nome":"Felipe Santos",
+    "cidade":"Belo Horizonte",
+    "estado":"MG",
+    "categoria":"eletronicos",
+    "valor_compra":2014.19,
+    "data_compra":"2026-04-21"
+  },
+  {
+    "id":83,
+    "nome":"Thiago Santos",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"esporte",
+    "valor_compra":1152.03,
+    "data_compra":"2026-04-21"
+  },
+  {
+    "id":84,
+    "nome":"Thiago Ribeiro",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"esporte",
+    "valor_compra":2376.1,
+    "data_compra":"2026-03-30"
+  },
+  {
+    "id":85,
+    "nome":"Isabela Pereira",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"livros",
+    "valor_compra":1125.87,
+    "data_compra":"2025-06-12"
+  },
+  {
+    "id":86,
+    "nome":"Larissa Lima",
+    "cidade":"Curitiba",
+    "estado":"PR",
+    "categoria":"esporte",
+    "valor_compra":2102.86,
+    "data_compra":"2025-10-11"
+  },
+  {
+    "id":87,
+    "nome":"Gabriel Santos",
+    "cidade":"Porto Alegre",
+    "estado":"RS",
+    "categoria":"moveis",
+    "valor_compra":1110.88,
+    "data_compra":"2025-10-20"
+  },
+  {
+    "id":88,
+    "nome":"Sofia Costa",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"moveis",
+    "valor_compra":2234.71,
+    "data_compra":"2025-03-24"
+  },
+  {
+    "id":89,
+    "nome":"Carla Santos",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"eletronicos",
+    "valor_compra":1741.0,
+    "data_compra":"2025-08-08"
+  },
+  {
+    "id":90,
+    "nome":"Felipe Pereira",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"eletronicos",
+    "valor_compra":1365.68,
+    "data_compra":"2026-03-02"
+  },
+  {
+    "id":91,
+    "nome":"Júlia Pereira",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"esporte",
+    "valor_compra":2264.0,
+    "data_compra":"2025-01-21"
+  },
+  {
+    "id":92,
+    "nome":"Camila Almeida",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"livros",
+    "valor_compra":2358.0,
+    "data_compra":"2025-11-02"
+  },
+  {
+    "id":93,
+    "nome":"Felipe Carvalho",
+    "cidade":"Fortaleza",
+    "estado":"CE",
+    "categoria":"livros",
+    "valor_compra":2003.67,
+    "data_compra":"2025-08-14"
+  },
+  {
+    "id":94,
+    "nome":"Lucas Lima",
+    "cidade":"Brasília",
+    "estado":"DF",
+    "categoria":"vestuario",
+    "valor_compra":1224.39,
+    "data_compra":"2026-02-03"
+  },
+  {
+    "id":95,
+    "nome":"Camila Oliveira",
+    "cidade":"Florianópolis",
+    "estado":"SC",
+    "categoria":"livros",
+    "valor_compra":2300.46,
+    "data_compra":"2025-01-28"
+  },
+  {
+    "id":96,
+    "nome":"Mariana Ribeiro",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"moveis",
+    "valor_compra":228.19,
+    "data_compra":"2026-03-15"
+  },
+  {
+    "id":97,
+    "nome":"Larissa Oliveira",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"moveis",
+    "valor_compra":665.19,
+    "data_compra":"2025-12-02"
+  },
+  {
+    "id":98,
+    "nome":"Larissa Costa",
+    "cidade":"Salvador",
+    "estado":"BA",
+    "categoria":"vestuario",
+    "valor_compra":1907.85,
+    "data_compra":"2026-01-24"
+  },
+  {
+    "id":99,
+    "nome":"Felipe Lima",
+    "cidade":"Rio de Janeiro",
+    "estado":"RJ",
+    "categoria":"vestuario",
+    "valor_compra":1186.36,
+    "data_compra":"2025-02-23"
+  },
+  {
+    "id":100,
+    "nome":"Lucas Souza",
+    "cidade":"São Paulo",
+    "estado":"SP",
+    "categoria":"moveis",
+    "valor_compra":1890.5,
+    "data_compra":"2025-09-11"
+  }
+]

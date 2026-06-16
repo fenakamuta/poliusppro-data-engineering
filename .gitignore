@@ -1,3 +1,41 @@
-.env
-*.csv
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Datasets baixados pelos notebooks (não commitar)
+2026/aula-*/data/*.parquet
+2026/aula-*/data/*.zip
+2026/aula-*/data/extracted/
+2026/aula-*/data/duckdb_tmp/
+2026/aula-*/**/*.duckdb
+2026/aula-*/**/empresas.parquet
+2026/aula-*/**/olist.parquet
+2026/aula-*/**/features_*.parquet
+2026/aula-*/**/predictions_*.parquet
+2026/aula-*/**/model_*.joblib
+
+# Exceções: dados de exemplo pequenos sempre vão pro repo
+!2026/aula-*/data/clientes_pequeno.csv
+!2026/aula-*/data/clientes_pequeno.json
+!2026/aula-*/data/clientes_pequeno.parquet
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+.cursor/
+*.swp
+
+# Misc
+*.log
+.env
