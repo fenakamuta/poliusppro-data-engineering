@@ -35,7 +35,17 @@ predictions_olist.parquet
 
 ---
 
-## Como rodar
+## Dois caminhos
+
+Você pode rodar o pipeline de duas formas:
+
+### A) Exploração didática — abre o notebook
+
+Use [`00-explorando-o-pipeline-ml.ipynb`](./00-explorando-o-pipeline-ml.ipynb) — é um único notebook que cobre as 4 etapas com markdown explicativo, gráficos, insights e desafios "mexa você mesmo".
+
+Recomendado se você quer **entender** o pipeline.
+
+### B) Produção — rode os 4 scripts em ordem
 
 ```bash
 # Da raiz da pasta 08-pipeline-ml-completo
@@ -54,7 +64,9 @@ python 03_batch_predict.py
 python 04_evaluate.py
 ```
 
-**Pré-requisito:** ter rodado o notebook [`07-bloco-3-olist-analise.ipynb`](../07-bloco-3-olist-analise.ipynb) pelo menos uma vez (ele baixa o `olist.parquet`).
+Recomendado se você quer **rodar** o pipeline igual a produção.
+
+**Pré-requisito comum:** ter rodado o notebook [`07-bloco-3-olist-analise.ipynb`](../07-bloco-3-olist-analise.ipynb) pelo menos uma vez (ele baixa o `olist.parquet`).
 
 ---
 
