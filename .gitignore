@@ -19,7 +19,9 @@ env/
 2026/aula-*/**/olist.parquet
 2026/aula-*/**/features_*.parquet
 2026/aula-*/**/predictions_*.parquet
+2026/aula-*/**/predicoes_*.parquet
 2026/aula-*/**/model_*.joblib
+2026/aula-*/**/modelo_*.joblib
 
 # Exceções: dados de exemplo pequenos sempre vão pro repo
 !2026/aula-*/data/clientes_pequeno.csv
