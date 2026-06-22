@@ -2,7 +2,7 @@
 
 **Data:** 23/06/2026
 
-> Em construção. Material disponível depois da Aula 1.
+> Coletar dados do mundo (APIs) e automatizar — sem código.
 
 ---
 
@@ -10,9 +10,19 @@
 
 | Bloco | Tema |
 |-------|------|
-| 1 | APIs, JSON e o tour do n8n |
-| 2 | Construindo um workflow visual ponta a ponta |
+| 1 | APIs, HTTP, JSON e REST |
+| 2 | Construindo um workflow visual no n8n (coletando produtos de uma API) |
 | 3 | Agendamento, tratamento de dado sujo, versionamento |
+
+---
+
+## 🎯 Atividade especial: Treine o Algoritmo
+
+Um jogo onde a turma classifica avaliações de e-commerce e compara sua acurácia
+com a de um modelo de Machine Learning — e os dados gerados são usados para treinar
+um modelo **ao vivo**.
+
+Veja [`jogo-treine-o-algoritmo/`](./jogo-treine-o-algoritmo/).
 
 ---
 
