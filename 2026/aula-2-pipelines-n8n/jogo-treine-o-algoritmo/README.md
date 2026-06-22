@@ -61,7 +61,36 @@ Abre em `http://localhost:8501`.
 | `reviews.csv` | 6.000 reviews reais do Olist (texto + estrela) |
 | `requirements.txt` | Dependências |
 | `treinar-ao-vivo.ipynb` | Notebook para o professor treinar um modelo ao vivo |
-| `plays.db` | Banco SQLite gerado em runtime (jogadas) — não versionado |
+| `supabase_setup.sql` | SQL para criar a tabela `jogadas` no Supabase |
+| `.streamlit/secrets.toml.example` | Modelo de configuração das credenciais |
+| `plays.db` | Banco SQLite local (fallback) — não versionado |
+
+---
+
+## Onde ficam salvas as jogadas (arquitetura)
+
+```
+[browsers dos alunos]  →  [1 servidor Streamlit]
+                              ├─ modelo (em memória, compartilhado)
+                              ├─ session_state (por aluno)
+                              └─ jogadas  →  Supabase (Postgres)   ← permanente
+                                          ou  SQLite local (fallback)
+```
+
+O app escolhe automaticamente:
+- **Com Supabase configurado** → grava no Postgres (permanente, lê de qualquer lugar).
+- **Sem configuração** → grava num SQLite local (`plays.db`), bom para testar.
+
+### Configurar o Supabase (recomendado para a aula)
+
+1. Crie uma conta grátis em https://supabase.com e um projeto novo.
+2. No **SQL Editor**, cole e rode o conteúdo de [`supabase_setup.sql`](./supabase_setup.sql) (cria a tabela `jogadas`).
+3. Em **Project Settings → API**, copie a **Project URL** e a chave **anon public**.
+4. **Local:** copie `.streamlit/secrets.toml.example` para `.streamlit/secrets.toml` e preencha.
+5. **No Streamlit Cloud:** App → Settings → Secrets → cole no mesmo formato.
+
+Pronto: as jogadas passam a ser gravadas no Supabase e sobrevivem a reinícios.
+Você pode até ler os dados direto do notebook de treino, sem baixar CSV.
 
 ---
 

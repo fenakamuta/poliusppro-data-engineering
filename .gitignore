@@ -38,6 +38,12 @@ Thumbs.db
 .cursor/
 *.swp
 
+# Segredos do Streamlit (Supabase, etc.) — nunca commitar
+**/.streamlit/secrets.toml
+
+# Banco local do jogo
+**/plays.db
+
 # Misc
 *.log
 .env
