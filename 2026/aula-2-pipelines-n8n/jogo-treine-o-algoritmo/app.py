@@ -159,7 +159,12 @@ class SupabaseStorage:
 
 class SQLiteStorage:
     def __init__(self, path):
-        self.con = sqlite3.connect(path, check_same_thread=False)
+        # timeout + WAL deixam o SQLite aguentar acesso simultâneo bem melhor:
+        # WAL permite leitores e escritor ao mesmo tempo; busy_timeout espera em vez de dar erro.
+        self.con = sqlite3.connect(path, check_same_thread=False, timeout=15)
+        self.con.execute("PRAGMA journal_mode=WAL")
+        self.con.execute("PRAGMA busy_timeout=8000")
+        self.con.execute("PRAGMA synchronous=NORMAL")
         self.con.execute("CREATE TABLE IF NOT EXISTS jogadas (nick TEXT,review_idx INTEGER,texto TEXT,"
                          "verdade INTEGER,palpite INTEGER,modelo INTEGER,acertou INTEGER,modelo_acertou INTEGER,ts TEXT)")
         self.con.commit()
@@ -197,6 +202,13 @@ def carregar_e_treinar():
     pool = pool.reset_index(drop=True).copy()
     pool["modelo_pred"] = modelo.predict(pool)
     return pool, (pool["modelo_pred"] == pool["positivo"]).mean()
+
+
+@st.cache_data(ttl=4, show_spinner=False)
+def ler_jogadas(_storage):
+    """Lê o placar no máximo 1x a cada 4s (em vez de a cada clique de qualquer aluno).
+    Reduz muito a pressão no banco quando a turma toda está jogando junta."""
+    return _storage.df()
 
 
 css_global()
@@ -319,7 +331,7 @@ else:
 # ----------------------------------------------------------------------
 st.divider()
 st.markdown("### 🏆 Placar da turma")
-dados = storage.df()
+dados = ler_jogadas(storage)
 if len(dados):
     placar = (dados.groupby("nick").agg(Jogadas=("acertou", "size"), Acuracia=("acertou", "mean")).reset_index())
     placar = placar[placar["Jogadas"] >= 3].copy()
