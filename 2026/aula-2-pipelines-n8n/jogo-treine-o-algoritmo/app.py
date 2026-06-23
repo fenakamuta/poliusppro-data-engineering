@@ -78,7 +78,7 @@ def pgto_pt(raw, parcelas):
 # ----------------------------------------------------------------------
 def css_global():
     st.markdown(f"""<style>
-      #MainMenu, header, footer {{visibility:hidden;}}
+      footer {{visibility:hidden;}}  /* esconde só o rodapé; mantém o header (botão Deploy) */
       .block-container {{padding:1rem 1rem 3rem !important; max-width:520px;}}
       .stButton>button {{border-radius:14px; font-weight:700; font-size:1.05rem;
          padding:0.7rem 1rem; min-height:54px;}}
