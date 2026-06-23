@@ -41,8 +41,10 @@ Thumbs.db
 # Segredos do Streamlit (Supabase, etc.) — nunca commitar
 **/.streamlit/secrets.toml
 
-# Banco local do jogo
+# Banco local do jogo (+ arquivos auxiliares do WAL)
 **/plays.db
+**/plays.db-shm
+**/plays.db-wal
 
 # Misc
 *.log
