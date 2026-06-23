@@ -30,6 +30,22 @@ o modelo do notebook `01-do-texto-ao-modelo`.
 
 ---
 
+## Página secreta do professor
+
+Os alunos usam a URL normal. O professor tem um painel escondido, acessível
+adicionando `?prof=poli2026` no fim da URL:
+
+```
+https://voce-vs-maquina.streamlit.app/?prof=poli2026
+```
+
+Lá você vê: total de jogadas, alunos, acurácia da turma vs modelo, o placar,
+a tabela completa, um botão **🔄 Atualizar** e o **📥 Baixar CSV completo**.
+
+> Para trocar a senha, edite `PROF_TOKEN` no topo do `app.py`.
+
+---
+
 ## Rodar localmente
 
 ```bash

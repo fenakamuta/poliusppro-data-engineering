@@ -217,6 +217,46 @@ pool, acc_modelo = carregar_e_treinar()
 storage, backend = get_storage()
 
 
+# ----------------------------------------------------------------------
+# Página SECRETA do professor — acesse com  ?prof=poli2026  na URL
+# ----------------------------------------------------------------------
+PROF_TOKEN = "poli2026"
+if st.query_params.get("prof") == PROF_TOKEN:
+    st.title("📊 Painel do Professor")
+    if st.button("🔄 Atualizar dados", type="primary"):
+        st.rerun()
+
+    dados = storage.df()
+    if len(dados) == 0:
+        st.info("Ainda não há jogadas registradas.")
+        st.caption(f"Armazenamento: {backend}")
+        st.stop()
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Jogadas", len(dados))
+    m2.metric("Alunos", dados["nick"].nunique())
+    m3.metric("Acurácia turma", f"{dados['acertou'].mean()*100:.0f}%")
+    m4.metric("Acurácia modelo", f"{acc_modelo*100:.0f}%")
+
+    st.subheader("🏆 Placar")
+    placar = (dados.groupby("nick")
+              .agg(Jogadas=("acertou", "size"), Acu=("acertou", "mean"))
+              .reset_index())
+    placar["Acu"] = (placar["Acu"] * 100).round(1)
+    placar = placar.sort_values("Acu", ascending=False)
+    placar.columns = ["Apelido", "Jogadas", "Acurácia (%)"]
+    st.dataframe(placar, hide_index=True, use_container_width=True)
+
+    st.subheader("📋 Todas as jogadas")
+    st.dataframe(dados, use_container_width=True, height=320)
+
+    st.download_button("📥 Baixar CSV completo",
+                       dados.to_csv(index=False).encode("utf-8"),
+                       file_name="jogadas_coletadas.csv", mime="text/csv", type="primary")
+    st.caption(f"Armazenamento: {backend}  ·  atualizado a cada clique em Atualizar")
+    st.stop()
+
+
 def init_state():
     for k, v in {"nick": None, "review_atual": None, "revelado": False,
                  "vistos": [], "acertos": 0, "total": 0}.items():
@@ -343,10 +383,3 @@ if len(dados):
     st.caption(f"🤖 Modelo: {acc_modelo*100:.0f}% — bata isso!")
 else:
     st.caption("Jogue pelo menos 3 rodadas para aparecer no placar.")
-
-with st.expander("⚙️ Professor — exportar dados coletados"):
-    todos = storage.df()
-    st.write(f"Total de jogadas: **{len(todos)}**  ·  armazenamento: **{backend}**")
-    if len(todos):
-        st.download_button("📥 Baixar dataset coletado (CSV)", todos.to_csv(index=False).encode("utf-8"),
-                           file_name="jogadas_coletadas.csv", mime="text/csv")
