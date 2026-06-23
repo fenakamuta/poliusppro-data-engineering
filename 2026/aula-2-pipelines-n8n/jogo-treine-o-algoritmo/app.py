@@ -12,6 +12,7 @@ Armazenamento: Supabase (st.secrets) ou SQLite local.
 """
 import sqlite3
 from datetime import datetime, timezone
+from pathlib import Path
 
 import pandas as pd
 import streamlit as st
@@ -25,8 +26,10 @@ from sklearn.pipeline import Pipeline
 
 st.set_page_config(page_title="Você vs a Máquina", page_icon="🎯", layout="centered")
 
-REVIEWS_CSV = "reviews.csv"
-DB_PATH = "plays.db"
+# Caminhos relativos AO ARQUIVO (no Streamlit Cloud o CWD é a raiz do repo, não esta pasta)
+BASE_DIR = Path(__file__).parent
+REVIEWS_CSV = str(BASE_DIR / "reviews.csv")
+DB_PATH = str(BASE_DIR / "plays.db")
 COLS = ["nick", "review_idx", "texto", "verdade", "palpite",
         "modelo", "acertou", "modelo_acertou", "ts"]
 NUM = ["preco", "frete", "dias_entrega", "dias_estimado", "atrasou", "parcelas", "fotos"]
