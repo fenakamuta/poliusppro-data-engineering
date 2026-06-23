@@ -21,10 +21,11 @@
 
 | # | Arquivo | O que ensina |
 |---|---------|--------------|
-| 00 | [`00-como-texto-vira-numero-tfidf.ipynb`](./00-como-texto-vira-numero-tfidf.ipynb) | Como o texto vira número: Bag of Words e TF-IDF, passo a passo, vendo a tabela mudar |
-| 01 | [`01-do-texto-ao-modelo.ipynb`](./01-do-texto-ao-modelo.ipynb) | Modelo **combinado** (texto + tabela) que cobre todos os pedidos — com e sem comentário |
+| 00 | [`00-analise-exploratoria-olist.ipynb`](./00-analise-exploratoria-olist.ipynb) | Análise exploratória (EDA): distribuição do alvo, cobertura, viés e a relação atraso × satisfação |
+| 01 | [`01-como-texto-vira-numero-tfidf.ipynb`](./01-como-texto-vira-numero-tfidf.ipynb) | Como o texto vira número: Bag of Words e TF-IDF, passo a passo, vendo a tabela mudar |
+| 02 | [`02-do-texto-ao-modelo.ipynb`](./02-do-texto-ao-modelo.ipynb) | Modelo **combinado** (texto + tabela) que cobre todos os pedidos — com e sem comentário |
 
-> Os dois rodam em casa. Baixam o dataset do Olist automaticamente na primeira célula.
+> Os três rodam em casa. Baixam o dataset do Olist automaticamente na primeira célula.
 
 ---
 
