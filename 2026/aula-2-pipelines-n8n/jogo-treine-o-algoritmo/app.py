@@ -179,12 +179,13 @@ class SQLiteStorage:
 
 @st.cache_resource
 def get_storage():
+    # Tenta Supabase em silêncio; se não houver secrets, cai no SQLite local sem alarde.
     try:
         if "supabase" in st.secrets:
             sb = st.secrets["supabase"]
             return SupabaseStorage(sb["url"], sb["key"]), "Supabase"
-    except Exception as e:
-        st.warning(f"Supabase indisponível ({e}); usando armazenamento local.")
+    except Exception:
+        pass
     return SQLiteStorage(DB_PATH), "SQLite local"
 
 
