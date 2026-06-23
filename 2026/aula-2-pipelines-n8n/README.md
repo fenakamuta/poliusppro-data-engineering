@@ -40,9 +40,12 @@ Veja [`jogo-treine-o-algoritmo/`](./jogo-treine-o-algoritmo/).
 
 ## Parte 2 — APIs e n8n
 
-| Pré-requisito | Link |
-|---------------|------|
+| Recurso | Link |
+|---------|------|
+| **Tutorial n8n passo a passo** | [`tutorial-n8n.md`](./tutorial-n8n.md) |
+| API do modelo (usar o modelo no n8n) | [`api-do-modelo/`](./api-do-modelo/) |
 | Conta gratuita n8n | https://app.n8n.cloud/register |
 | API pública para praticar (sem token) | https://dummyjson.com/products |
 
-O workflow exportado e o tutorial passo a passo entram aqui após a aula.
+O [`tutorial-n8n.md`](./tutorial-n8n.md) traz 4 workflows completos: coletar de uma
+API, rodar agendado, tratar dados sujos e — o capstone — chamar a API do nosso modelo.
