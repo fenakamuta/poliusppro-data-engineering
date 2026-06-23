@@ -1,18 +1,31 @@
-# 🎯 Treine o Algoritmo
+# 🎯 Você vs a Máquina
 
-Jogo de classificação de sentimento para a **Aula 2** — Data Engineering, POLI USP PRO.
+Jogo de classificação de satisfação para a **Aula 2** — Data Engineering, POLI USP PRO.
 
-O aluno lê avaliações reais de e-commerce (em português) e adivinha se o cliente ficou satisfeito. No fim, compara sua acurácia com a de um modelo de Machine Learning. Cada jogada vira dado coletado — que o professor usa para treinar um modelo ao vivo.
+O aluno vê avaliações reais de e-commerce e adivinha se o cliente ficou satisfeito.
+No fim, compara sua acurácia com a de um modelo. Cada jogada vira dado coletado.
 
 ---
 
 ## Como funciona
 
+Há **dois tipos de rodada**:
+
 ```
-1. Aluno lê um review (texto) e chuta 👍 / 👎
+COM comentário  → o aluno lê o texto e chuta 👍 / 👎
+SEM comentário  → o aluno decide só pelos DADOS do pedido
+                  (categoria, preço, frete, prazo, atraso)
+```
+
+O modelo é **combinado** (texto + tabela): usa o texto quando existe e se apoia
+nos dados quando não existe — por isso funciona nos dois tipos de rodada, igual
+o modelo do notebook `01-do-texto-ao-modelo`.
+
+```
+1. Aluno vê a avaliação (texto OU dados) e chuta 👍 / 👎
 2. Sistema revela: a verdade (estrela do cliente) + o que o MODELO previu
 3. Placar da turma compara todos vs o modelo
-4. Toda jogada é gravada → vira o dataset para o professor treinar ao vivo
+4. Toda jogada é gravada (Supabase ou SQLite) → dataset para treinar ao vivo
 ```
 
 ---
