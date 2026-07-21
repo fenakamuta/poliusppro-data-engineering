@@ -16,7 +16,7 @@ EXPLAIN ANALYZE SELECT * FROM pedidos WHERE estado = 'SP';
 
 CREATE INDEX idx_estado ON pedidos(estado);
 
--- ...e depois (Index Scan = vai direto)
+-- ...e depois: o Seq Scan some (aparece Bitmap Index Scan)
 EXPLAIN ANALYZE SELECT * FROM pedidos WHERE estado = 'SP';
 
 -- ============================================================

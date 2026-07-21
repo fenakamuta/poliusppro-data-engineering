@@ -259,8 +259,8 @@ s = slide_hook("Lembram de onde paramos?",
      "Na Aula 2 treinaram um modelo (86%) e",
      "agendaram um workflow que coleta sozinho.",
      "",
-     "Mas ninguém perguntou: onde o dado aterrissa?"])
-note(s, "Recap das duas aulas em 30 segundos + a pergunta que abre esta. Deixe a pergunta no ar — não responda ainda.")
+     "A pergunta em que o notebook parou: onde o dado aterrissa?"])
+note(s, "Recap das duas aulas em 30 segundos — e a PONTE com o notebook de revisão que acabou de rodar: ele terminou exatamente nesta pergunta. Deixe-a no ar — não responda ainda.")
 
 s = slide_object("Os termos de hoje",
     ["Não precisa decorar nada disto agora.",
@@ -291,7 +291,7 @@ note(s, "O MAPA DA AULA — 60 segundos aqui valem ouro. Leia da esquerda pra di
 
 s = slide_hook("Pra que um banco, se o DuckDB é rápido?",
     ["Essa é a pergunta do dia.", "", "No fim do Bloco 1 ela se responde sozinha."], tag="BANCO")
-note(s, "A provocação central. NÃO responda agora — os slides 6 a 9 são a resposta, e o recap do bloco 1 amarra.")
+note(s, "A provocação central. NÃO responda agora — os próximos quatro slides são a resposta, e o recap do bloco 1 amarra.")
 
 # ---------------- BLOCO 1 ----------------
 s = slide_section("Bloco 1: Por que banco de dados",
@@ -355,10 +355,10 @@ s = slide_code("A stack num arquivo: docker-compose.yml",
      "    ports: ['3000:3000']",
      "volumes:                    # sem declarar aqui, o compose recusa",
      "  postgres-data:"], tag="DOCKER", size=11)
-note(s, "Leia linha a linha. image = qual molde baixar. environment = usuário/senha/banco. ports = 'porta da máquina : porta do container'. volumes = onde o dado sobrevive. IMPORTANTE: circule o nome do serviço 'postgres' — ele volta como a pegadinha nº1 no Bloco 3. O arquivo do repositório é este mesmo, com dois extras que omiti do slide por espaço: um healthcheck e um depends_on (o Metabase espera o Postgres ficar pronto). Se alguém perguntar, é só isso.")
+note(s, "Leia linha a linha. image = qual molde baixar. environment = usuário/senha/banco. ports = 'porta da máquina : porta do container'. volumes = onde o dado sobrevive. IMPORTANTE: circule o nome do serviço 'postgres' — ele volta como a pegadinha nº1 no Bloco 3. O arquivo do repositório é este mesmo, com três extras que omiti do slide por espaço: um healthcheck, um depends_on (o Metabase espera o Postgres ficar pronto) e um volume próprio do Metabase (metabase-data + MB_DB_FILE, para os dashboards sobreviverem ao down). Se alguém perguntar, é isso.")
 
 s = slide_code("Subir a stack e falar com ela",
-    ["# 1. sobe Postgres + Metabase (na pasta da aula 3):",
+    ["# 1. na pasta 2026/aula-3-banco-e-dashboard do repo:",
      "docker compose up -d",
      "docker compose ps          # os dois 'running'?",
      "",
@@ -367,7 +367,7 @@ s = slide_code("Subir a stack e falar com ela",
      "",
      "# Postgres -> localhost:5432  |  Metabase -> localhost:3000",
      "# host = a maquina onde o banco esta; aqui, a sua"], tag="DOCKER", size=13)
-note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens leva uns 20 min de pull na wi-fi da sala — mande acompanhar o colega do lado e siga; nao pare a turma.")
+note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem nao tiver o repo: git clone https://github.com/fenakamuta/poliusppro-data-engineering (ou Download ZIP no site). Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens leva uns 20 min de pull na wi-fi da sala — mande acompanhar o colega do lado e siga; nao pare a turma.")
 
 s = slide_object("Do Parquet para uma tabela de verdade",
     ["O Olist de hoje vem com uma coluna a mais: risco_review,",
@@ -413,14 +413,14 @@ s = slide_code("Carregar o Parquet na tabela",
      "",
      "df = pd.read_parquet('olist_com_risco.parquet')[cols]   # ordem!",
      "df = df.astype(object).where(pd.notnull(df), None)      # NaN -> NULL",
-     "",
+     "# tudo isto ja esta pronto no repo:  python carga.py",
      "conn = psycopg2.connect(host='localhost', port=5432,",
      "        user='aluno', password='aula3', dbname='olist')",
      "with conn.cursor() as cur:            # cursor = por onde o SQL passa",
      "    sql = f'INSERT INTO pedidos ({\", \".join(cols)}) VALUES %s'",
      "    execute_values(cur, sql, df.values.tolist())",
      "conn.commit()                         # so agora esta gravado"], tag="BANCO", size=11)
-note(s, "NAO RODE AO VIVO POR PADRAO — o ambiente Python de cada aluno e o ponto de falha mais imprevisivel do bloco mais apertado. Mostre o codigo, explique e siga; rode so se estiver adiantado. psycopg2 e pyarrow ja estao no requirements.txt. ARMADILHA REAL (testada): o Olist tem prazo_dias vazio, o pandas traz NaN, e o Postgres recusa NaN em coluna integer — a linha do where() converte NaN em NULL. E a licao de dado sujo da Aula 2 na pratica. A lista cols e usada duas vezes — para ordenar o dataframe E para nomear as colunas no INSERT — entao a ordem nunca sai do lugar em silencio. O commit no fim e a deixa para o slide de transacao.")
+note(s, "ESTE CODIGO E O carga.py DO REPO. NAO digite nada: explique as linhas na tela e mande a TURMA RODAR O SCRIPT PRONTO agora — python carga.py (ele baixa o Parquet do Release sozinho, ~4 MB, e carrega 96.470 linhas). SEM ESTA CARGA O RESTO DA AULA NAO TEM DADO — o EXPLAIN, o count ao vivo e o dashboard dependem dela. Se falhar em alguem (ambiente Python), forma dupla com o colega e resolve no intervalo. psycopg2 e pyarrow ja estao no requirements.txt do curso. ARMADILHA REAL (testada): review_score vem vazio em parte dos pedidos, o pandas traz NaN, e o Postgres recusa NaN em coluna integer — a linha do where() converte NaN em NULL. E a licao de dado sujo da Aula 2 na pratica. A lista cols e usada duas vezes — ordenar o dataframe E nomear as colunas do INSERT. O commit no fim e a deixa para o slide de transacao.")
 
 s = slide_code("O mesmo SQL da Aula 1 — só mudou o FROM",
     ["-- AULA 1 (DuckDB, direto no arquivo):",
@@ -432,7 +432,7 @@ s = slide_code("O mesmo SQL da Aula 1 — só mudou o FROM",
      "SELECT delivered_late, round(avg(review_score), 2) AS score",
      "FROM pedidos",
      "GROUP BY delivered_late;"], tag="BANCO", size=13)
-note(s, "Esta é A query da Aula 1 — a que revelou atraso -> review ruim (2.4 vs 4.3). Mostre que só a linha do FROM mudou. Mensagem: SQL é portátil; muda o motor, não a linguagem.")
+note(s, "Esta é A query da Aula 1 — a que revelou atraso -> review ruim (2.4 vs 4.3). ATENÇÃO AO NÚMERO: nesta tabela (deduplicada por pedido) a tela vai imprimir 2.27 vs 4.29 — mesmo fenômeno, recorte um pouco diferente; diga isso em meia frase se alguém notar. Mostre que só a linha do FROM mudou. Mensagem: SQL é portátil; muda o motor, não a linguagem.")
 
 s = slide_diagram("Índice: o índice remissivo do banco", "d6_indice.png",
     caption="Como achar uma palavra num livro: ler tudo, ou ir direto pelo índice remissivo.",
@@ -458,7 +458,7 @@ s = slide_hook("Recap do Bloco 1",
      "ao mesmo tempo, precisa de um servidor.",
      "",
      "Falta: fazer o dado chegar sozinho. → Bloco 2"])
-note(s, "Feche explicitamente a pergunta da abertura — é a promessa do slide 4 sendo paga. Só então abra o gancho do Bloco 2.")
+note(s, "Feche explicitamente a pergunta da abertura ('Pra que um banco, se o DuckDB é rápido?') — é a promessa sendo paga. Só então abra o gancho do Bloco 2.")
 
 s = slide_section("Intervalo", "15 minutos")
 note(s, "Pausa. Voltamos às 20h25.")
@@ -469,13 +469,13 @@ s = slide_section("Bloco 2: n8n alimentando o Postgres",
 note(s, "Início. Recuperar energia com 'fazer'. Bloco mais folgado do dia.")
 
 s = slide_hook("O workflow ganhou um destino",
-    ["Na Aula 2, o n8n coletava da API",
+    ["Na Aula 2, o n8n coletava de uma API",
      "e… mostrava o JSON na tela.",
      "",
-     "Hoje ele grava no Postgres.",
-     "",
-     "Mesmo fluxo, um bloco a mais no fim."])
-note(s, "Ponte da Aula 2. O node Postgres é só mais um bloco no fluxo que eles já montaram.")
+     "Hoje a estrutura é a mesma, com dois upgrades:",
+     "a fonte é uma API de pedidos (já no repo)",
+     "e o destino é um banco de verdade."])
+note(s, "Ponte da Aula 2 — mas seja honesto sobre o que muda: a ESTRUTURA do fluxo e a mesma que eles ja montaram; a fonte e nova (a API de pedidos, slide adiante) e o destino e novo (o Postgres).")
 
 s = slide_object("O node Postgres no n8n",
     ["No n8n, o Postgres é só mais um bloco. Ele pede:",
@@ -496,7 +496,7 @@ s = slide_code("Mapear o JSON da API na tabela",
      "categoria     <-  {{ $json.category }}",
      "preco         <-  {{ $json.price }}",
      "prazo_dias    <-  {{ $json.delivery_days }}",
-     "",
+     "# {{ $json.x }} = 'pega o campo x do que veio antes'",
      "# node Postgres  ->  Insert na tabela pedidos:",
      "# nomes iguais aos da coluna = mapeia sozinho"], tag="n8n", size=13)
 note(s, "Mostre na tela do n8n: e um formulario, campo a campo. O {{ $json.campo }} e a sintaxe do n8n para 'pega este campo do que veio antes'. Como o Edit Fields ja renomeia para o nome exato das colunas, o node Postgres mapeia sozinho (auto-map). E exatamente assim no n8n-workflow-aula3.json do repo.")
@@ -517,15 +517,15 @@ s = slide_code("De onde vêm os pedidos? A API do repo",
      "cd api-pedidos",
      "pip install -r requirements.txt",
      "uvicorn main:app --port 8001",
-     " ",
+     "# dica: abra um NOVO terminal (serao 3: psql, API, n8n)",
      "# cada chamada devolve 10 pedidos NOVOS:",
      "# GET http://localhost:8001/pedidos",
-     "# [{'id': 'novo-a1b2c3', 'customer_state': 'SP',",
+     "# [{'id': 'novo-a1b2c3...', 'customer_state': 'SP',",
      "#   'category': 'housewares', 'price': 89.9, ...}]"], tag="n8n", size=13)
 note(s, "Na vida real esse papel e do ERP/e-commerce da empresa; aqui, uma API do repo que sorteia pedidos reais do Olist com id sempre NOVO — por isso da para executar o workflow quantas vezes quiser sem duplicar PRIMARY KEY. Suba ANTES de montar o workflow e abra localhost:8001/pedidos no navegador para todos verem o JSON.")
 
 s = slide_diagram("O workflow, ponta a ponta", "d8_workflow.png",
-    caption="Quatro blocos: o garçom pede em localhost:8001/pedidos, o Edit Fields arruma, o banco guarda.",
+    caption="O garçom pede em localhost:8001/pedidos. Perdeu o passo? Importe n8n-workflow-aula3.json do repo.",
     tag="n8n")
 note(s, "Monte ao vivo — e IMPORTANTE: antes, suba a API de pedidos do repo (pasta api-pedidos: uvicorn main:app --port 8001). O HTTP Request chama GET http://localhost:8001/pedidos e recebe 10 pedidos novos por execucao, com id inedito (pode executar quantas vezes quiser, nunca duplica PK). Os 3 primeiros blocos vieram da Aula 2 — retome a analogia do garcom. O bloco Postgres e a novidade. Tem um workflow pronto para importar no repo: n8n-workflow-aula3.json (so criar a credencial do Postgres).")
 
@@ -544,26 +544,27 @@ s = slide_code("Por baixo do bloco: é só um INSERT",
 note(s, "Não existe mágica no n8n. Abrir a caixa-preta aqui é o mesmo golpe didático do Metabase no Bloco 3: a interface bonita sempre vira SQL por baixo.")
 
 s = slide_hook("Ao vivo: o dado chegou sozinho",
-    ["SELECT count(*)   →   antes",
+    ["SELECT count(*) FROM pedidos;   →   antes",
      "",
      "▶ executa o workflow",
      "",
-     "SELECT count(*)   →   depois: o número subiu.",
+     "SELECT count(*) FROM pedidos;   →   subiu +10.",
      "",
      "Ninguém digitou um INSERT."])
 note(s, "Momento ao vivo. Rode o count ANTES na frente deles, execute, rode de novo. Deixe o silêncio trabalhar — não explique por cima.")
 
 s = slide_object("De script a serviço: agendar",
-    ["Troque o Manual Trigger pelo Schedule Trigger.",
+    ["Troque o Manual Trigger pelo Schedule Trigger —",
+     "o mesmo agendamento da Aula 2, agora com destino.",
      "",
-     "Agora o pipeline roda todo dia às 8h — sem você.",
+     "O pipeline roda todo dia às 8h — sem você.",
      "No n8n você só escolhe a hora num menu; por baixo",
      "vira um agendamento (cron): 0 8 * * * quer dizer",
      "minuto 0, hora 8, todos os dias.",
      "",
      "É a diferença entre um script, que você aperta,",
      "e um serviço, que vive sozinho."], tag="n8n")
-note(s, "O pulo do gato do bloco. Script vs serviço é a ideia que eles levam para casa. Mostre o cron para desmistificar o 'agendamento'.")
+note(s, "Cuidado com o enquadre: agendar eles JA fizeram na Aula 2 — o pulo do gato de HOJE e que o workflow agendado agora tem um DESTINO que acumula. Script vs servico e a ideia que levam para casa. Mostre o cron para desmistificar o 'agendamento'.")
 
 s = slide_code("O banco se defende do lixo",
     ["-- a API traz nulo e duplicata; o banco recusa",
@@ -588,7 +589,8 @@ s = slide_object("Ou tudo, ou nada: transação",
 note(s, "Abra a sigla ACID — sem isso é decoreba. O exemplo clássico (transferência bancária) está no próximo slide, em código.")
 
 s = slide_code("A transferência que não pode dar errado",
-    ["BEGIN;",
+    ["-- ilustracao classica: a tabela contas NAO existe no olist",
+     "BEGIN;",
      "",
      "UPDATE contas SET saldo = saldo - 100 WHERE id = 1;",
      "UPDATE contas SET saldo = saldo + 100 WHERE id = 2;",
@@ -661,17 +663,18 @@ s = slide_code("O SQL que o Metabase escreveu por você",
 note(s, "A revelação: a interface bonita vira o SQL que eles já sabem escrever. Desmistifica a ferramenta e valoriza o que aprenderam no Bloco 1.")
 
 s = slide_object("O dashboard “Pedidos em risco”",
-    ["Quatro cartões, uma tela:",
+    ["Cinco cartões, uma tela:",
      "",
      "• total de pedidos na base   ← é este que se move ao vivo",
      "• total em risco hoje",
-     "• risco por estado e por categoria",
+     "• risco por estado · risco por categoria",
      "• a lista dos piores — para o time atacar amanhã",
      "",
+     "No Metabase: + Novo → SQL → cole → Salvar → dashboard.",
      "Lembre por que isso importa: atraso vira nota 2.4."], tag="DASH")
 note(s, "Este é o entregável da aula. Amarre no negócio (a descoberta da Aula 1): não é um gráfico bonito, é uma lista de pedidos para alguém salvar amanhã de manhã. NUMEROS REAIS do dado carregado: 96.470 pedidos no total, 19.424 em risco (20,1%), e o estado com mais risco é SP (6.686).")
 
-s = slide_code("O SQL por trás dos 4 cartões",
+s = slide_code("O SQL por trás dos cartões",
     ["-- 1) total de pedidos  (e este que sobe ao vivo)",
      "SELECT count(*) FROM pedidos;",
      "",
@@ -691,7 +694,7 @@ s = slide_hook("O momento da aula",
     ["▶ executa o workflow no n8n",
      "↻ volta ao dashboard e aperta F5",
      "",
-     "96.470 pedidos   →   96.480",
+     "o total sobe +10, na frente de todo mundo",
      "",
      "O dado saiu da API, passou pelo banco e",
      "apareceu no gráfico. Você não tocou em nada."], tag="DASH")
@@ -706,7 +709,7 @@ s = slide_object("Sendo honesto: o que é automático aqui?",
      "E o painel também pode: no Metabase, engrenagem →",
      "Auto-refresh → a cada 1 minuto. Aí ninguém aperta nada.",
      "",
-     "O pipeline é automático; a tela só precisa olhar de novo."], tag="DASH")
+     "E repare: o contador de RISCO não se moveu. Guarde isso."], tag="DASH")
 note(s, "Honestidade intelectual: um aluno atento vai notar que o F5 é manual e sentir que 'se atualiza sozinho' foi exagero. Antecipe isso — e mostre o auto-refresh do Metabase ao vivo se der tempo.")
 
 s = slide_object("E na nuvem? Supabase, em um slide",
@@ -752,22 +755,23 @@ s = slide_object("Para praticar em casa",
     ["Suba a stack e monte um dashboard com uma",
      "pergunta SUA sobre o Olist.",
      "",
-     "Commite o SQL da sua pergunta no GitHub.",
+     "Salve o SQL num arquivo .sql e mande no grupo",
+     "da turma — quem usa GitHub pode subir no seu.",
      "",
-     "(o docker-compose.yml e o setup estão no repositório)"])
-note(s, "Tarefa: dashboard com pergunta própria + commitar o SQL.")
+     "(compose, SQL e scripts: pasta da aula 3 do repo)"])
+note(s, "Tarefa: dashboard com pergunta propria + o SQL salvo e enviado no grupo. Git nunca foi ensinado no curso — por isso o caminho padrao e o grupo; GitHub fica como opcao para quem ja usa.")
 
 s = slide_object("O gancho da Aula 4",
     ["A coluna risco_review veio de um modelo treinado,",
      "com dado rotulado, lá na Aula 2.",
      "",
-     "Mas repare: o pedido que acabou de entrar pelo n8n",
-     "chegou SEM essa coluna preenchida.",
-     "Quem decide o risco dele, agora?",
+     "Mas o pedido que entrou hoje pelo n8n chegou SEM",
+     "risco — o modelo roda em lote, depois, no dado pronto.",
+     "Quem decide o risco dele, AGORA?",
      "",
-     "E se um agente de IA lesse o comentário em português",
-     "e decidisse na hora, sem treinar nada?"])
-note(s, "Gancho da Aula 4, e o pagamento da limitacao que apareceu no momento ao vivo: o pedido novo entrou sem previsao de risco. E exatamente esse buraco que um agente de IA preenche — sem treino, lendo o texto na hora. NAO corte este slide: e o que segura o fio do curso. Se o tempo apertar, corte o Supabase e as leituras.")
+     "E se uma IA olhasse o pedido — prazo, categoria,",
+     "preço — e decidisse na hora, sem treinar nada?"])
+note(s, "Gancho da Aula 4, pagando a deixa do slide 'Sendo honesto' (o contador de risco nao se moveu). CUIDADO COM A LOGICA: o pedido novo NAO tem comentario ainda — o agente decide olhando os DADOS do pedido (prazo, categoria, preco) na hora, sem treino. E quando o review em portugues chegar, ele tambem le — isso e a Aula 4. NAO corte este slide: e o que segura o fio do curso. Se o tempo apertar, corte o Supabase e as leituras.")
 
 s = slide_object("Leituras complementares",
     ["PostgreSQL — Documentation (postgresql.org/docs)",

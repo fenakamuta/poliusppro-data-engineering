@@ -25,7 +25,7 @@ cols = ['pedido_id', 'estado', 'categoria', 'preco', 'prazo_dias',
         'delivered_late', 'review_score', 'risco_review']
 
 if not PARQUET_PATH.exists():
-    print("Baixando o Parquet do Release do GitHub (~2 MB)...")
+    print("Baixando o Parquet do Release do GitHub (~4 MB)...")
     urllib.request.urlretrieve(PARQUET_URL, PARQUET_PATH)
 
 df = pd.read_parquet(PARQUET_PATH)[cols]                # ordem do CREATE TABLE!
