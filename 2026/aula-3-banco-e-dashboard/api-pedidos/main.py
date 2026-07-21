@@ -76,8 +76,8 @@ def prever(pedido: PedidoNovo):
     global modelo
     if modelo is None:
         if not MODELO_PATH.exists():
-            raise HTTPException(503, "modelo_risco.joblib nao encontrado nesta pasta — "
-                                     "endpoint de demonstracao usado em aula pelo professor")
+            raise HTTPException(503, "Modelo nao encontrado — rode ../gerar_parquet_risco.py "
+                                     "(ele salva o modelo_risco.joblib aqui)")
         import joblib
         modelo = joblib.load(MODELO_PATH)
     linha = pd.DataFrame([{
