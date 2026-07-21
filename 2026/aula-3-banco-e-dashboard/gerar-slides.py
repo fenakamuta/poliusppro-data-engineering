@@ -387,15 +387,17 @@ s = slide_code("Subir a stack e falar com ela",
 note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem nao tiver o repo: git clone https://github.com/fenakamuta/poliusppro-data-engineering (ou Download ZIP no site). Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens deixa o docker compose pull rodando em segundo plano (banda de casa da conta) e acompanha assistindo; retoma quando terminar. Nao pare a aula.")
 
 s = slide_object("Do Parquet para a tabela",
-    ["O Olist de hoje vem com uma coluna a mais: risco_review,",
-     "preenchida pelo modelo que vocês treinaram na Aula 2.",
+    ["O Olist de hoje vem com duas colunas a mais,",
+     "preenchidas pelo modelo que vocês treinaram na Aula 2:",
      "",
-     "Ela já vem PRONTA no Parquet (do Release do GitHub) —",
+     "risco_prob     o termômetro: prob. de review ruim (0 a 1)",
+     "risco_review   o alarme: risco_prob ≥ 0.5 → agir",
+     "",
+     "Já vêm PRONTAS no Parquet (do Release do GitHub) —",
      "hoje não treinamos nem rodamos o modelo de novo.",
      "",
-     "É a descoberta da Aula 1 virando ação: o atraso",
-     "derruba a nota, então vamos agir ANTES da nota chegar."], tag="OLIST")
-note(s, "Responda a dúvida antes que ela apareça: a predição é um presente já pronto, ninguém precisa refazer a Aula 2. E amarre no negócio: atraso -> review ruim (2.4 vs 4.3) é a razão de a coluna existir.")
+     "É a descoberta da Aula 1 virando ação: agir ANTES da nota."], tag="OLIST")
+note(s, "Responda a dúvida antes que ela apareça: a predição é um presente já pronto, ninguém precisa refazer a Aula 2. TERMOMETRO vs ALARME: o modelo devolve probabilidade (risco_prob); o corte em 0.5 vira decisão de negocio (risco_review) — quem quiser ser mais agressivo baixa a régua. E amarre no negócio: atraso -> review ruim (2.4 vs 4.3) é a razão de as colunas existirem.")
 
 s = slide_code("CREATE TABLE: declare antes",
     ["CREATE TABLE pedidos (",
@@ -406,7 +408,8 @@ s = slide_code("CREATE TABLE: declare antes",
      "    prazo_dias      integer,",
      "    delivered_late  boolean,               -- atrasou? (aula 1)",
      "    review_score    integer,               -- a nota do cliente",
-     "    risco_review    boolean                -- veio do modelo",
+     "    risco_prob      numeric,   -- prob. de review ruim (termometro)",
+     "    risco_review    boolean    -- risco_prob >= 0.5   (alarme)",
      ");"], tag="BANCO", size=13)
 note(s, "Cada coluna tem tipo declarado. PRIMARY KEY = identidade única. O CSV aceitaria qualquer coisa calado; o banco recusa na porta. Note delivered_late e review_score: são as colunas da descoberta da Aula 1 — elas voltam na consulta de daqui a dois slides.")
 
@@ -420,7 +423,7 @@ s = slide_code("Carregar o Parquet na tabela",
      "import pandas as pd, psycopg2        # psycopg2 = quem fala Postgres",
      "from psycopg2.extras import execute_values",
      "cols = ['pedido_id','estado','categoria','preco','prazo_dias',",
-     "        'delivered_late','review_score','risco_review']",
+     "        'delivered_late','review_score','risco_prob','risco_review']",
      "",
      "df = pd.read_parquet('olist_com_risco.parquet')[cols]   # ordem!",
      "df = df.astype(object).where(pd.notnull(df), None)      # NaN -> NULL",
@@ -709,7 +712,7 @@ s = slide_object("O dashboard “Pedidos em risco”",
      "• a lista dos piores — para o time atacar amanhã",
      "",
      "Lembre por que isso importa: atraso vira nota 2.4."], tag="DASH")
-note(s, "Este é o entregável da aula. Amarre no negócio (a descoberta da Aula 1): não é um gráfico bonito, é uma lista de pedidos para alguém salvar amanhã de manhã. NUMEROS REAIS do dado carregado: 96.470 pedidos no total, 19.424 em risco (20,1%), e o estado com mais risco é SP (6.686).")
+note(s, "Este é o entregável da aula. Amarre no negócio (a descoberta da Aula 1): não é um gráfico bonito, é uma lista de pedidos para alguém salvar amanhã de manhã. NUMEROS REAIS do dado carregado: 96.470 pedidos no total, 19.426 em risco (20,1%), e o estado com mais risco é SP (6.686).")
 
 s = slide_code("O SQL por trás dos cartões",
     ["-- 1) total de pedidos  (e este que sobe ao vivo)",
@@ -722,9 +725,10 @@ s = slide_code("O SQL por trás dos cartões",
      "SELECT estado, count(*) AS risco FROM pedidos",
      "WHERE risco_review GROUP BY estado ORDER BY risco DESC;",
      "",
-     "-- 4) os piores, para o time atacar amanha",
-     "SELECT pedido_id, estado, prazo_dias FROM pedidos",
-     "WHERE risco_review ORDER BY prazo_dias DESC LIMIT 20;"], tag="DASH", size=12)
+     "-- 4) os piores, ordenados pelo risco REAL do modelo",
+     "SELECT pedido_id, estado, round(risco_prob, 2) AS risco",
+     "FROM pedidos WHERE risco_review",
+     "ORDER BY risco_prob DESC LIMIT 20;"], tag="DASH", size=12)
 note(s, "Deixe este slide na tela enquanto eles montam os cartoes. Cada cartao e uma pergunta — e toda pergunta vira SQL. ATENCAO: o cartao 1 (total, sem WHERE) e o que voce vai usar no momento ao vivo — os pedidos que o n8n insere entram sem risco_review preenchido, entao os cartoes com WHERE risco_review NAO se movem.")
 
 s = slide_object("Montando o dashboard",

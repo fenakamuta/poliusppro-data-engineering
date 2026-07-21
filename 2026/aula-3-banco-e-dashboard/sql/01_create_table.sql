@@ -10,5 +10,6 @@ CREATE TABLE pedidos (
     prazo_dias      integer,
     delivered_late  boolean,               -- atrasou? (aula 1)
     review_score    integer,               -- a nota do cliente
-    risco_review    boolean                -- veio do modelo (aula 2)
+    risco_prob      numeric,               -- prob. de review ruim (0 a 1) — o termometro
+    risco_review    boolean                -- risco_prob >= 0.5 — o alarme
 );

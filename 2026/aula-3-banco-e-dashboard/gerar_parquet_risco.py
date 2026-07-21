@@ -67,6 +67,7 @@ def main():
     print(f"Treinando o modelo em {len(df)} pedidos...")
     modelo, dados = treinar_modelo(df)
     prob_satisfeito = modelo.predict_proba(dados)[:, 1]
+    risco_prob = (1 - prob_satisfeito).round(4)  # prob. de review RUIM (0 a 1)
 
     out = pd.DataFrame({
         "pedido_id": df["order_id"],
@@ -76,7 +77,8 @@ def main():
         "prazo_dias": df["delivery_days"].astype("Int64"),
         "delivered_late": df["delivered_late"].astype("boolean"),
         "review_score": df["review_score"].astype("Int64"),
-        "risco_review": prob_satisfeito < 0.5,
+        "risco_prob": risco_prob,           # o termometro: quao arriscado
+        "risco_review": risco_prob >= 0.5,  # o alarme: age ou nao age
     })
     out.to_parquet(OUT_PATH, index=False)
 

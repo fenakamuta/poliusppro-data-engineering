@@ -61,6 +61,6 @@ SELECT count(*) FROM pedidos WHERE risco_review;
 SELECT estado, count(*) AS risco FROM pedidos
 WHERE risco_review GROUP BY estado ORDER BY risco DESC;
 
--- 4) os piores, para o time atacar amanha
-SELECT pedido_id, estado, prazo_dias FROM pedidos
-WHERE risco_review ORDER BY prazo_dias DESC LIMIT 20;
+-- 4) os piores, para o time atacar amanha (ordenado pelo risco REAL)
+SELECT pedido_id, estado, round(risco_prob, 2) AS risco FROM pedidos
+WHERE risco_review ORDER BY risco_prob DESC LIMIT 20;

@@ -22,7 +22,7 @@ PARQUET_URL = ("https://github.com/fenakamuta/poliusppro-data-engineering/"
 PARQUET_PATH = pathlib.Path("olist_com_risco.parquet")
 
 cols = ['pedido_id', 'estado', 'categoria', 'preco', 'prazo_dias',
-        'delivered_late', 'review_score', 'risco_review']
+        'delivered_late', 'review_score', 'risco_prob', 'risco_review']
 
 if not PARQUET_PATH.exists():
     print("Baixando o Parquet do Release do GitHub (~4 MB)...")
