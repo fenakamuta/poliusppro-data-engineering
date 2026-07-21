@@ -26,3 +26,8 @@ INSERT INTO pedidos (pedido_id, estado, preco) VALUES ('jogo-6', 'SP', -50);
 
 -- limpeza (pode deixar o CHECK criado; ele nao atrapalha o resto da aula)
 DELETE FROM pedidos WHERE pedido_id LIKE 'jogo-%';
+
+-- se a brincadeira improvisou outros ids, o preco negativo entrega os intrusos:
+-- (habito de adulto: mirar com SELECT antes de atirar com DELETE)
+SELECT pedido_id, estado, preco FROM pedidos WHERE preco < 0;
+DELETE FROM pedidos WHERE preco < 0;
