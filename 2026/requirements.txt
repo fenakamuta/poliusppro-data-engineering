@@ -8,6 +8,7 @@ notebook>=7.0.0
 pandas>=2.2.0
 duckdb>=1.0.0
 pyarrow>=15.0.0
+matplotlib>=3.8.0
 
 # Aula 1 (Pipeline ML) — scikit-learn
 scikit-learn>=1.4.0
