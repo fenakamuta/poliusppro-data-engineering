@@ -295,7 +295,7 @@ note(s, "A provocação central. NÃO responda agora — os próximos quatro sli
 
 # ---------------- BLOCO 1 ----------------
 s = slide_section("Bloco 1: Por que banco de dados",
-    "Onde o dado da Aula 2 finalmente aterrissa.")
+    "Onde o dado vai morar.")
 note(s, "Início. Energia alta. Bloco mais pesado do dia — controle o relógio.")
 
 s = slide_object("Num arquivo, isso não fecha",
@@ -393,27 +393,20 @@ s = slide_code("CREATE TABLE: declare antes de aceitar",
      ");"], tag="BANCO", size=13)
 note(s, "Cada coluna tem tipo declarado. PRIMARY KEY = identidade única. O CSV aceitaria qualquer coisa calado; o banco recusa na porta. Note delivered_late e review_score: são as colunas da descoberta da Aula 1 — elas voltam na consulta de daqui a dois slides.")
 
-s = slide_object("Schema, tipos e constraints",
-    ["Constraint é uma regra que o banco se recusa a violar.",
-     "Ele rejeita o que o arquivo aceitava calado:",
-     "",
-     "• tipo: texto onde devia ser número? recusado.",
-     "• NOT NULL: coluna obrigatória vazia? recusado.",
-     "• PRIMARY KEY: dois pedidos com o mesmo id? recusado.",
-     "",
-     "Na Aula 2 a lição foi 'a API traz dado sujo, sempre trate'.",
-     "Agora existe alguém que te obriga a cumprir isso."], tag="BANCO")
-note(s, "Constraint = regra que o banco se recusa a violar. Callback correto à Aula 2 (slide 'Agendar, limpar e versionar': dados sujos, sempre trate).")
+s = slide_diagram("Schema, tipos e constraints", "d9_porteiro.png",
+    caption="Schema = as tabelas e regras que você declarou. Constraint = a regra que o porteiro não deixa violar.",
+    tag="BANCO")
+note(s, "Leia o desenho: tres linhas chegam, o porteiro (as constraints) julga na porta. Tipo: texto onde devia ser numero? recusado. NOT NULL: obrigatorio vazio? recusado. PRIMARY KEY: id repetido? recusado. O arquivo aceitava tudo isso CALADO. Callback correto a Aula 2 ('a API traz dado sujo, sempre trate') — agora existe alguem que te OBRIGA a cumprir.")
 
 s = slide_code("Carregar o Parquet na tabela",
-    ["import pandas as pd, psycopg2        # psycopg2 = quem fala Postgres",
+    ["# tudo isto ja esta pronto no repo:  python carga.py",
+     "import pandas as pd, psycopg2        # psycopg2 = quem fala Postgres",
      "from psycopg2.extras import execute_values",
      "cols = ['pedido_id','estado','categoria','preco','prazo_dias',",
      "        'delivered_late','review_score','risco_review']",
      "",
      "df = pd.read_parquet('olist_com_risco.parquet')[cols]   # ordem!",
      "df = df.astype(object).where(pd.notnull(df), None)      # NaN -> NULL",
-     "# tudo isto ja esta pronto no repo:  python carga.py",
      "conn = psycopg2.connect(host='localhost', port=5432,",
      "        user='aluno', password='aula3', dbname='olist')",
      "with conn.cursor() as cur:            # cursor = por onde o SQL passa",
@@ -449,6 +442,19 @@ s = slide_code("EXPLAIN: o banco mostra o plano dele",
      "",
      "  Bitmap Index Scan on idx_estado    <- usa o indice"], tag="BANCO", size=13)
 note(s, "TESTADO com o dado real: o plano novo aparece como 'Bitmap Heap Scan' com um 'Bitmap Index Scan on idx_estado' dentro — o nome exato varia, o que importa e que o Seq Scan SUMIU e o idx_estado aparece. Nao prometa relogio: em tabela deste tamanho o tempo pode nao cair visivelmente; o que sempre muda e o PLANO.")
+
+s = slide_object("JOGO: Adivinhe o plano",
+    ["Cinco queries. Antes de cada EXPLAIN, vote:",
+     "índice ou tabela inteira (Seq Scan)?",
+     "",
+     "1. WHERE estado = 'SP'",
+     "2. WHERE pedido_id = '…'    ← PRIMARY KEY",
+     "3. WHERE preco > 1000",
+     "4. WHERE estado = 'AC' AND preco > 1000",
+     "5. SELECT count(*)          ← pegadinha",
+     "",
+     "(script pronto: sql/03_jogo_adivinhe_o_plano.sql)"], tag="BANCO")
+note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. GABARITO TESTADO no dado real: 1) indice (Bitmap Index Scan em idx_estado); 2) Index Scan puro na PRIMARY KEY — todo PRIMARY KEY ganha indice de graca; 3) Seq Scan — nao ha indice em preco; 4) usa o indice do ESTADO e filtra preco depois; 5) Seq Scan — count(*) sem WHERE le a tabela inteira, indice nao ajuda. Mao levantada a cada rodada; quem errar menos leva a gloria. A mensagem que fica: o banco ESCOLHE o plano, e o EXPLAIN mostra a escolha.")
 
 s = slide_hook("Recap do Bloco 1",
     ["Lá atrás eu perguntei: pra que um banco?",
@@ -553,21 +559,13 @@ s = slide_hook("Ao vivo: o dado chegou sozinho",
      "Ninguém digitou um INSERT."])
 note(s, "Momento ao vivo. Rode o count ANTES na frente deles, execute, rode de novo. Deixe o silêncio trabalhar — não explique por cima.")
 
-s = slide_object("De script a serviço: agendar",
-    ["Troque o Manual Trigger pelo Schedule Trigger —",
-     "o mesmo agendamento da Aula 2, agora com destino.",
-     "",
-     "O pipeline roda todo dia às 8h — sem você.",
-     "No n8n você só escolhe a hora num menu; por baixo",
-     "vira um agendamento (cron): 0 8 * * * quer dizer",
-     "minuto 0, hora 8, todos os dias.",
-     "",
-     "É a diferença entre um script, que você aperta,",
-     "e um serviço, que vive sozinho."], tag="n8n")
-note(s, "Cuidado com o enquadre: agendar eles JA fizeram na Aula 2 — o pulo do gato de HOJE e que o workflow agendado agora tem um DESTINO que acumula. Script vs servico e a ideia que levam para casa. Mostre o cron para desmistificar o 'agendamento'.")
+s = slide_diagram("De script a serviço: agendar", "d12_script_servico.png",
+    caption="No n8n é um menu; por baixo é cron: 0 8 * * * = minuto 0, hora 8, todos os dias.",
+    tag="n8n")
+note(s, "Mecanica: troque o Manual Trigger pelo Schedule Trigger no proprio fluxo. Cuidado com o enquadre: agendar eles JA fizeram na Aula 2 — o pulo do gato de HOJE e que o workflow agendado agora tem um DESTINO que acumula. Script vs servico e a ideia que levam para casa (esta no desenho). Mostre o cron da caption para desmistificar o 'agendamento'.")
 
 s = slide_code("O banco se defende do lixo",
-    ["-- a API traz nulo e duplicata; o banco recusa",
+    ["-- e se a fonte trouxesse nulo ou duplicata? o banco recusa",
      "",
      "INSERT INTO pedidos (pedido_id, estado)",
      "VALUES (NULL, 'SP');      -- ERRO: viola NOT NULL",
@@ -577,16 +575,20 @@ s = slide_code("O banco se defende do lixo",
      "                          -- ERRO na 2a: PRIMARY KEY duplicada"], tag="BANCO", size=13)
 note(s, "Tente inserir lixo AO VIVO e mostre o Postgres recusando. Ver o erro acontecer vale mais que dez slides sobre qualidade de dado.")
 
-s = slide_object("Ou tudo, ou nada: transação",
-    ["Uma transação agrupa operações numa coisa só:",
-     "ou todas valem, ou nenhuma vale.",
+s = slide_object("JOGO: Quebre o banco",
+    ["Desafio: inventem um INSERT que passe",
+     "lixo pela porta. Eu digito, o banco julga.",
      "",
-     "Se a luz cai no meio da carga, o banco não fica",
-     "pela metade — ele desfaz e volta ao início.",
+     "Spoiler: alguém vai conseguir —",
+     "e é aí que a aula fica boa.",
      "",
-     "Essas garantias se chamam ACID: Atomicidade,",
-     "Consistência, Isolamento e Durabilidade."], tag="BANCO")
-note(s, "Abra a sigla ACID — sem isso é decoreba. O exemplo clássico (transferência bancária) está no próximo slide, em código.")
+     "(script pronto: sql/04_jogo_quebre_o_banco.sql)"], tag="BANCO")
+note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. A turma grita tentativas, voce digita. O banco recusa NULL, id repetido, texto em coluna numerica... ate alguem tentar um VALOR ABSURDO valido: preco = -50 PASSA (testado!), estado = 'XX' passa, prazo = 9999 passa. REVELACAO: o banco so defende as regras que voce DECLAROU — constraint nao e magia, e contrato. Feche mostrando: ALTER TABLE pedidos ADD CONSTRAINT preco_positivo CHECK (preco >= 0); e o mesmo INSERT falhando. DEIXE O CHECK CRIADO (nao atrapalha nada) ou remova com DROP CONSTRAINT. E o gancho perfeito para o slide de transacao.")
+
+s = slide_diagram("Ou tudo, ou nada: transação", "d10_transacao.png",
+    caption="As garantias têm nome: ACID — Atomicidade, Consistência, Isolamento, Durabilidade.",
+    tag="BANCO")
+note(s, "Uma transacao agrupa operacoes numa coisa so: ou todas valem, ou nenhuma. Se a luz cai no meio da carga, o banco nao fica pela metade — desfaz e volta ao inicio. Abra a sigla ACID (esta na caption) — sem isso e decoreba. O exemplo classico em codigo esta no proximo slide.")
 
 s = slide_code("A transferência que não pode dar errado",
     ["-- ilustracao classica: a tabela contas NAO existe no olist",
@@ -616,16 +618,10 @@ s = slide_section("Bloco 3: Dashboard no Metabase",
     "Tirar o dado do terminal e pôr na frente de quem decide.")
 note(s, "Início. Reta final — aqui está o entregável. Controle o relógio para sobrar tempo do gancho da Aula 4.")
 
-s = slide_object("O que é o Metabase",
-    ["O Postgres guarda o dado. Mas ninguém de operações",
-     "vai abrir um terminal e escrever SQL.",
-     "",
-     "O Metabase conecta no banco e deixa montar",
-     "perguntas e gráficos — sem escrever código.",
-     "",
-     "O banco é a geladeira; o Metabase, a vitrine.",
-     "A vitrine não guarda comida: ela mostra a da geladeira."], tag="DASH")
-note(s, "A analogia geladeira/vitrine é a que mais gruda no deck. Reforce: o Metabase NÃO guarda dado — ele lê do Postgres, sempre ao vivo.")
+s = slide_diagram("O que é o Metabase", "d14_geladeira_vitrine.png",
+    caption="A vitrine não guarda comida: ela mostra a da geladeira — sempre ao vivo.",
+    tag="DASH")
+note(s, "O Postgres guarda o dado — mas ninguem de operacoes vai abrir um terminal e escrever SQL. O Metabase conecta no banco e deixa montar perguntas e graficos SEM codigo. A analogia geladeira/vitrine e a que mais gruda no deck. Reforce: o Metabase NAO guarda dado — ele le do Postgres, sempre ao vivo.")
 
 s = slide_object("Conectar o Metabase no Postgres",
     ["Abra localhost:3000, crie uma conta local",

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-"""(professor) Diagramas estilo Excalidraw (traço de mão) do deck da Aula 3.
+"""Diagramas estilo Excalidraw (traço de mão) para o deck da Aula 3.
 
-Gera os PNGs de ./assets-slides/ com matplotlib em modo xkcd + fonte Patrick Hand
-(baixada sozinha na primeira execução). Depois rode gerar-slides.py.
+Gera PNGs em ./diagramas/ com matplotlib em modo xkcd + fonte Patrick Hand.
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -330,3 +329,120 @@ plt.close(f)
 print("diagramas gerados:")
 for p in sorted(OUT.glob("*.png")):
     print(" ", p.name)
+
+# ============================================================
+# D9 — constraints: o porteiro da tabela
+# ============================================================
+f, ax = fig_ax(12.5, 4.8)
+H = 100 * 4.8 / 12.5
+# a tabela, à direita
+cilindro(ax, 78, 8, 16, 20, BANCO, "tabela", "pedidos")
+# a porta/porteiro
+ax.add_patch(FancyBboxPatch((60, 6), 9, 26, boxstyle="round,pad=0.5,rounding_size=1.2",
+                            edgecolor=BANCO, facecolor=BANCO + "10", linewidth=2.4))
+ax.text(64.5, H - 4, "constraints:\no porteiro", ha="center", fontsize=11.5, color=BANCO)
+ax.text(64.5, 19, "tipo\nNOT NULL\nPRIMARY\nKEY", ha="center", fontsize=9.5, color=BANCO)
+# tres linhas chegando
+def linha_dado(y, txt, cor):
+    ax.add_patch(FancyBboxPatch((6, y), 42, 6.5, boxstyle="round,pad=0.35,rounding_size=0.9",
+                                edgecolor=cor, facecolor=cor + "10", linewidth=1.8))
+    ax.text(27, y + 3.2, txt, ha="center", fontsize=10.5, color=cor,
+            fontfamily="monospace" if False else None)
+linha_dado(28, "('a1b', 'SP', 89.90)          dado ok", OLIST)
+linha_dado(17.5, "(NULL, 'SP', ...)      sem id!", ERRO)
+linha_dado(7, "('a1b', 'RJ', ...)    id repetido!", ERRO)
+seta(ax, 48.5, 31, 59, 27, cor=OLIST)
+seta(ax, 69.5, 21, 77, 19, "entra", cor=OLIST, fs=10.5)
+ax.plot([52, 56], [19, 23], color=ERRO, lw=3)
+ax.plot([52, 56], [23, 19], color=ERRO, lw=3)
+ax.text(54, 14.5, "recusado\nna porta", ha="center", fontsize=10, color=ERRO)
+seta(ax, 48.5, 10, 51.5, 17, cor=ERRO, ls=(0, (4, 3)))
+f.savefig(OUT / "d9_porteiro.png", bbox_inches="tight", transparent=True)
+plt.close(f)
+
+# ============================================================
+# D10 — transação: ou tudo, ou nada
+# ============================================================
+f, ax = fig_ax(12.5, 4.6)
+H = 100 * 4.6 / 12.5
+ax.text(25, H - 3.5, "SEM transação", ha="center", fontsize=13.5, color=ERRO)
+box(ax, 6, 12, 13, 11, "conta A\n-100", CINZA, fs=11.5)
+box(ax, 31, 12, 13, 11, "conta B\n+100 ?", CINZA, fs=11.5)
+seta(ax, 20.5, 17.5, 29.5, 17.5, cor=CINZA)
+# raio no meio
+ax.plot([24.2, 25.8, 24.8, 26.4], [24, 20.5, 20.5, 16.8], color="#F59F00", lw=3)
+ax.text(25, 27, "a luz cai aqui…", ha="center", fontsize=10.5, color="#F59F00")
+ax.text(25, 7, "o dinheiro saiu de A\ne NUNCA chegou em B", ha="center",
+        fontsize=10.5, color=ERRO)
+ax.plot([50, 50], [5, H - 3], color="#CED4DA", lw=1.6, linestyle="--")
+ax.text(75, H - 3.5, "COM transação (BEGIN … COMMIT)", ha="center",
+        fontsize=13.5, color=OLIST)
+ax.add_patch(FancyBboxPatch((56, 9), 38, 17, boxstyle="round,pad=0.6,rounding_size=1.6",
+                            edgecolor=OLIST, facecolor=OLIST + "08",
+                            linewidth=2.2, linestyle=(0, (5, 3))))
+box(ax, 59, 13, 13, 10, "conta A\n-100", OLIST, fs=11)
+box(ax, 78, 13, 13, 10, "conta B\n+100", OLIST, fs=11)
+seta(ax, 73.5, 18, 76.5, 18, cor=OLIST)
+ax.text(75, 6, "deu problema no meio? o banco DESFAZ tudo\n(ROLLBACK) — nunca fica pela metade",
+        ha="center", fontsize=10.5, color=OLIST)
+f.savefig(OUT / "d10_transacao.png", bbox_inches="tight", transparent=True)
+plt.close(f)
+
+# ============================================================
+# D12 — script (você aperta) vs serviço (vive sozinho)
+# ============================================================
+f, ax = fig_ax(12.5, 4.4)
+H = 100 * 4.4 / 12.5
+ax.text(25, H - 3.5, "SCRIPT: você aperta", ha="center", fontsize=13.5, color=CINZA)
+boneco(ax, 12, 15, cor=CINZA, escala=1.2)
+box(ax, 20, 12, 10, 7, "RUN", CINZA, fs=11)
+seta(ax, 16, 16, 19.3, 15.5, cor=CINZA)
+box(ax, 36, 11.5, 12, 8.5, "roda 1x\ne para", CINZA, fs=10.5)
+seta(ax, 31, 15.5, 35.2, 15.5, cor=CINZA)
+ax.text(25, 4.5, "esqueceu de apertar? não rodou.", ha="center", fontsize=10.5, color=CINZA)
+ax.plot([50, 50], [4, H - 3], color="#CED4DA", lw=1.6, linestyle="--")
+ax.text(75, H - 3.5, "SERVIÇO: vive sozinho", ha="center", fontsize=13.5, color=N8N)
+ax.add_patch(Circle((61, 16), 4.6, fill=False, edgecolor=N8N, linewidth=2.4))
+ax.plot([61, 61], [16, 19.2], color=N8N, lw=2)
+ax.plot([61, 63.6], [16, 16], color=N8N, lw=2)
+ax.text(61, 8, "todo dia, 8h", ha="center", fontsize=10.5, color=N8N)
+box(ax, 71, 11.5, 21, 9, "coleta -> INSERT", N8N, fs=11.5)
+seta(ax, 66.2, 16, 70.2, 16, cor=N8N)
+# loop de volta
+ax.add_patch(FancyArrowPatch((81, 11), (61, 11.2), connectionstyle="arc3,rad=0.5",
+                             arrowstyle="-|>", mutation_scale=16, linewidth=1.8,
+                             color=N8N, linestyle=(0, (4, 3))))
+ax.text(75, 5, "com você dormindo. Isso é um serviço.", ha="center",
+        fontsize=10.5, color=N8N)
+f.savefig(OUT / "d12_script_servico.png", bbox_inches="tight", transparent=True)
+plt.close(f)
+
+# ============================================================
+# D14 — Metabase: a geladeira e a vitrine
+# ============================================================
+f, ax = fig_ax(12.5, 4.8)
+H = 100 * 4.8 / 12.5
+# geladeira
+ax.add_patch(FancyBboxPatch((10, 6), 16, 26, boxstyle="round,pad=0.5,rounding_size=1.4",
+                            edgecolor=BANCO, facecolor=BANCO + "0A", linewidth=2.4))
+ax.plot([11, 25], [22, 22], color=BANCO, lw=1.8)
+ax.plot([11, 25], [14.5, 14.5], color=BANCO, lw=1.8)
+for x, y in [(14, 24.5), (19, 24.5), (14, 17), (21, 17), (16.5, 9.5)]:
+    ax.add_patch(Circle((x, y), 1.5, edgecolor=BANCO, facecolor=BANCO + "30", linewidth=1.4))
+ax.text(18, H - 3.5, "POSTGRES: a geladeira", ha="center", fontsize=12.5, color=BANCO)
+ax.text(18, 2.5, "guarda o dado", ha="center", fontsize=10.5, color=BANCO)
+# vitrine
+ax.add_patch(FancyBboxPatch((62, 8), 30, 20, boxstyle="round,pad=0.5,rounding_size=1.4",
+                            edgecolor=DASH, facecolor=DASH + "08", linewidth=2.4))
+ax.plot([63, 91], [15, 15], color=DASH, lw=1.6)
+# grafiquinhos na vitrine
+for i, hgt in enumerate([4, 7, 5.5, 8.5]):
+    ax.add_patch(FancyBboxPatch((66 + i * 6, 16.5), 4, hgt,
+                                boxstyle="round,pad=0.15,rounding_size=0.5",
+                                edgecolor=DASH, facecolor=DASH + "30", linewidth=1.5))
+ax.text(77, 11, "dashboards, sem código", ha="center", fontsize=10, color=DASH)
+ax.text(77, H - 3.5, "METABASE: a vitrine", ha="center", fontsize=12.5, color=DASH)
+ax.text(77, 3.5, "mostra — não guarda nada", ha="center", fontsize=10.5, color=DASH)
+seta(ax, 27.5, 19, 60.5, 19, "SELECT, sempre ao vivo", cor=CINZA, fs=11)
+f.savefig(OUT / "d14_geladeira_vitrine.png", bbox_inches="tight", transparent=True)
+plt.close(f)
