@@ -473,6 +473,18 @@ s = slide_object("JOGO: Adivinhe o plano",
      "(script pronto: sql/03_jogo_adivinhe_o_plano.sql)"], tag="BANCO")
 note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. GABARITO TESTADO no dado real: 1) indice (Bitmap Index Scan em idx_estado); 2) Index Scan puro na PRIMARY KEY — todo PRIMARY KEY ganha indice de graca; 3) Seq Scan — nao ha indice em preco; 4) usa o indice do ESTADO e filtra preco depois; 5) Seq Scan — count(*) sem WHERE le a tabela inteira, indice nao ajuda. Mao levantada a cada rodada; quem errar menos leva a gloria. A mensagem que fica: o banco ESCOLHE o plano, e o EXPLAIN mostra a escolha.")
 
+s = slide_object("DINÂMICA: vote com a mão",
+    ["Por que o dashboard não pode ler direto do Parquet?",
+     "",
+     "A)  Parquet é um formato lento demais",
+     "B)  arquivo é cópia parada, com um dono — não aguenta",
+     "      leitura e escrita ao mesmo tempo",
+     "C)  SQL não funciona em cima de arquivo",
+     "D)  Parquet não guarda colunas numéricas",
+     "",
+     "(30 segundos, mão levantada por letra)"], tag="BANCO")
+note(s, "DINAMICA ELASTICA (3-5 min) — corte sem do se atrasar. GABARITO: B. Por que as outras: A e falsa (Parquet e rapidissimo para analise — Aula 1); C e a melhor pegadinha, porque eles FIZERAM SQL em arquivo com o DuckDB — o problema nao e o SQL, e a concorrencia; D e falsa obvia. Se a maioria votar C, otimo: vale 2 minutos explicando que ler da certo, o problema e todo mundo ESCREVENDO e lendo junto. E o formato exato da prova.")
+
 s = slide_hook("Recap do Bloco 1",
     ["A pergunta que abriu o bloco: pra que um banco?",
      "",
@@ -674,6 +686,19 @@ s = slide_code("O SQL que o Metabase escreveu",
      "-- Nenhuma novidade: e um SELECT com GROUP BY,",
      "-- a mesma estrutura que voces escreveram na mao no Bloco 1."], tag="DASH")
 note(s, "A revelação: a interface bonita vira o SQL que eles já sabem escrever. Desmistifica a ferramenta e valoriza o que aprenderam no Bloco 1.")
+
+s = slide_object("DINÂMICA: vote com a mão",
+    ["Na conexão do Metabase, por que host = postgres,",
+     "e não localhost?",
+     "",
+     "A)  porque postgres é mais rápido que localhost",
+     "B)  porque localhost não existe no Windows",
+     "C)  dentro do Docker, localhost é o próprio container;",
+     "      o nome do serviço é o endereço na rede interna",
+     "D)  porque o Metabase não aceita endereços IP",
+     "",
+     "(30 segundos, mão levantada por letra)"], tag="DASH")
+note(s, "DINAMICA ELASTICA (3-5 min) — corte sem do se atrasar. GABARITO: C — e a pegadinha n1 da aula, recem-vivida na conexao: quem errou a conexao ha 10 minutos agora fixa o porque. A e B sao falsas diretas; D e falsa (aceita IP normalmente). Se muita gente errar, volte 30 segundos no diagrama do host (o laco vermelho). E o formato exato da prova.")
 
 s = slide_object("O dashboard “Pedidos em risco”",
     ["Cinco cartões, uma tela:",
