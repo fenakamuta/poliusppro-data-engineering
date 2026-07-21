@@ -384,7 +384,7 @@ s = slide_code("Subir a stack e falar com ela",
      "",
      "# Postgres -> localhost:5432  |  Metabase -> localhost:3000",
      "# host = a maquina onde o banco esta; aqui, a sua"], tag="DOCKER", size=13)
-note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem nao tiver o repo: git clone https://github.com/fenakamuta/poliusppro-data-engineering (ou Download ZIP no site). Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens leva uns 20 min de pull na wi-fi da sala — mande acompanhar o colega do lado e siga; nao pare a turma.")
+note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem nao tiver o repo: git clone https://github.com/fenakamuta/poliusppro-data-engineering (ou Download ZIP no site). Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens deixa o docker compose pull rodando em segundo plano (banda de casa da conta) e acompanha assistindo; retoma quando terminar. Nao pare a aula.")
 
 s = slide_object("Do Parquet para a tabela",
     ["O Olist de hoje vem com uma coluna a mais: risco_review,",
@@ -430,7 +430,7 @@ s = slide_code("Carregar o Parquet na tabela",
      "    sql = f'INSERT INTO pedidos ({\", \".join(cols)}) VALUES %s'",
      "    execute_values(cur, sql, df.values.tolist())",
      "conn.commit()                         # so agora esta gravado"], tag="BANCO", size=11)
-note(s, "ESTE CODIGO E O carga.py DO REPO. NAO digite nada: explique as linhas na tela e mande a TURMA RODAR O SCRIPT PRONTO agora — python carga.py (ele baixa o Parquet do Release sozinho, ~4 MB, e carrega 96.470 linhas). SEM ESTA CARGA O RESTO DA AULA NAO TEM DADO — o EXPLAIN, o count ao vivo e o dashboard dependem dela. Se falhar em alguem (ambiente Python), forma dupla com o colega e resolve no intervalo. psycopg2 e pyarrow ja estao no requirements.txt do curso. ARMADILHA REAL (testada): review_score vem vazio em parte dos pedidos, o pandas traz NaN, e o Postgres recusa NaN em coluna integer — a linha do where() converte NaN em NULL. E a licao de dado sujo da Aula 2 na pratica. A lista cols e usada duas vezes — ordenar o dataframe E nomear as colunas do INSERT. O commit no fim e a deixa para o slide de transacao.")
+note(s, "ESTE CODIGO E O carga.py DO REPO. NAO digite nada: explique as linhas na tela e mande a TURMA RODAR O SCRIPT PRONTO agora — python carga.py (ele baixa o Parquet do Release sozinho, ~4 MB, e carrega 96.470 linhas). SEM ESTA CARGA O RESTO DA AULA NAO TEM DADO — o EXPLAIN, o count ao vivo e o dashboard dependem dela. Se falhar em alguem (ambiente Python), a pessoa acompanha assistindo e resolve no intervalo — deixe o chat aberto para duvidas. psycopg2 e pyarrow ja estao no requirements.txt do curso. ARMADILHA REAL (testada): review_score vem vazio em parte dos pedidos, o pandas traz NaN, e o Postgres recusa NaN em coluna integer — a linha do where() converte NaN em NULL. E a licao de dado sujo da Aula 2 na pratica. A lista cols e usada duas vezes — ordenar o dataframe E nomear as colunas do INSERT. O commit no fim e a deixa para o slide de transacao.")
 
 s = slide_code("O mesmo SQL da Aula 1",
     ["-- AULA 1 (DuckDB, direto no arquivo):",
@@ -471,9 +471,9 @@ s = slide_object("JOGO: Adivinhe o plano",
      "5. SELECT count(*)          ← pegadinha",
      "",
      "(script pronto: sql/03_jogo_adivinhe_o_plano.sql)"], tag="BANCO")
-note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. GABARITO TESTADO no dado real: 1) indice (Bitmap Index Scan em idx_estado); 2) Index Scan puro na PRIMARY KEY — todo PRIMARY KEY ganha indice de graca; 3) Seq Scan — nao ha indice em preco; 4) usa o indice do ESTADO e filtra preco depois; 5) Seq Scan — count(*) sem WHERE le a tabela inteira, indice nao ajuda. Mao levantada a cada rodada; quem errar menos leva a gloria. A mensagem que fica: o banco ESCOLHE o plano, e o EXPLAIN mostra a escolha.")
+note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. GABARITO TESTADO no dado real: 1) indice (Bitmap Index Scan em idx_estado); 2) Index Scan puro na PRIMARY KEY — todo PRIMARY KEY ganha indice de graca; 3) Seq Scan — nao ha indice em preco; 4) usa o indice do ESTADO e filtra preco depois; 5) Seq Scan — count(*) sem WHERE le a tabela inteira, indice nao ajuda. Cada um digita o palpite no chat antes do EXPLAIN; quem errar menos leva a gloria. A mensagem que fica: o banco ESCOLHE o plano, e o EXPLAIN mostra a escolha.")
 
-s = slide_object("DINÂMICA: vote com a mão",
+s = slide_object("DINÂMICA: vote no chat",
     ["Por que o dashboard não pode ler direto do Parquet?",
      "",
      "A)  Parquet é um formato lento demais",
@@ -482,7 +482,7 @@ s = slide_object("DINÂMICA: vote com a mão",
      "C)  SQL não funciona em cima de arquivo",
      "D)  Parquet não guarda colunas numéricas",
      "",
-     "(30 segundos, mão levantada por letra)"], tag="BANCO")
+     "(30 segundos: digitem a letra no chat)"], tag="BANCO")
 note(s, "DINAMICA ELASTICA (3-5 min) — corte sem do se atrasar. GABARITO: B. Por que as outras: A e falsa (Parquet e rapidissimo para analise — Aula 1); C e a melhor pegadinha, porque eles FIZERAM SQL em arquivo com o DuckDB — o problema nao e o SQL, e a concorrencia; D e falsa obvia. Se a maioria votar C, otimo: vale 2 minutos explicando que ler da certo, o problema e todo mundo ESCREVENDO e lendo junto. E o formato exato da prova.")
 
 s = slide_hook("Recap do Bloco 1",
@@ -544,7 +544,7 @@ s = slide_object("Cuidado: rode o n8n local",
      "da sua máquina. Quem estiver na nuvem trava aqui.",
      "",
      "Local fala com local."], tag="n8n")
-note(s, "PEGADINHA — anuncie ANTES de todo mundo começar a montar, não depois do erro. Pergunte quem está no n8n.cloud e resolva agora.")
+note(s, "PEGADINHA — anuncie ANTES de todo mundo começar a montar, não depois do erro. Pergunte no chat quem está no n8n.cloud e resolva agora.")
 
 s = slide_code("De onde vêm os pedidos?",
     ["# o papel do sistema da empresa (ERP / e-commerce)",
@@ -606,13 +606,13 @@ note(s, "Tente inserir lixo AO VIVO e mostre o Postgres recusando. Ver o erro ac
 
 s = slide_object("JOGO: Quebre o banco",
     ["Desafio: inventem um INSERT que passe",
-     "lixo pela porta. A turma dita, o banco julga.",
+     "lixo pela porta. O chat dita, o banco julga.",
      "",
      "Spoiler: alguém vai conseguir —",
      "e é aí que a aula fica boa.",
      "",
      "(script pronto: sql/04_jogo_quebre_o_banco.sql)"], tag="BANCO")
-note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. A turma grita tentativas, voce digita. O banco recusa NULL, id repetido, texto em coluna numerica... ate alguem tentar um VALOR ABSURDO valido: preco = -50 PASSA (testado!), estado = 'XX' passa, prazo = 9999 passa. REVELACAO: o banco so defende as regras que voce DECLAROU — constraint nao e magia, e contrato. Feche mostrando: ALTER TABLE pedidos ADD CONSTRAINT preco_positivo CHECK (preco >= 0); e o mesmo INSERT falhando. DEIXE O CHECK CRIADO (nao atrapalha nada) ou remova com DROP CONSTRAINT. E o gancho perfeito para o slide de transacao.")
+note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. O chat manda as tentativas, voce digita. O banco recusa NULL, id repetido, texto em coluna numerica... ate alguem tentar um VALOR ABSURDO valido: preco = -50 PASSA (testado!), estado = 'XX' passa, prazo = 9999 passa. REVELACAO: o banco so defende as regras que voce DECLAROU — constraint nao e magia, e contrato. Feche mostrando: ALTER TABLE pedidos ADD CONSTRAINT preco_positivo CHECK (preco >= 0); e o mesmo INSERT falhando. DEIXE O CHECK CRIADO (nao atrapalha nada) ou remova com DROP CONSTRAINT. E o gancho perfeito para o slide de transacao.")
 
 s = slide_diagram("Ou tudo, ou nada: transação", "d10_transacao.png",
     caption="As garantias têm nome: ACID — Atomicidade, Consistência, Isolamento, Durabilidade.",
@@ -687,7 +687,7 @@ s = slide_code("O SQL que o Metabase escreveu",
      "-- a mesma estrutura que voces escreveram na mao no Bloco 1."], tag="DASH")
 note(s, "A revelação: a interface bonita vira o SQL que eles já sabem escrever. Desmistifica a ferramenta e valoriza o que aprenderam no Bloco 1.")
 
-s = slide_object("DINÂMICA: vote com a mão",
+s = slide_object("DINÂMICA: vote no chat",
     ["Na conexão do Metabase, por que host = postgres,",
      "e não localhost?",
      "",
@@ -697,7 +697,7 @@ s = slide_object("DINÂMICA: vote com a mão",
      "      o nome do serviço é o endereço na rede interna",
      "D)  porque o Metabase não aceita endereços IP",
      "",
-     "(30 segundos, mão levantada por letra)"], tag="DASH")
+     "(30 segundos: digitem a letra no chat)"], tag="DASH")
 note(s, "DINAMICA ELASTICA (3-5 min) — corte sem do se atrasar. GABARITO: C — e a pegadinha n1 da aula, recem-vivida na conexao: quem errou a conexao ha 10 minutos agora fixa o porque. A e B sao falsas diretas; D e falsa (aceita IP normalmente). Se muita gente errar, volte 30 segundos no diagrama do host (o laco vermelho). E o formato exato da prova.")
 
 s = slide_object("O dashboard “Pedidos em risco”",
@@ -736,7 +736,7 @@ s = slide_object("Montando o dashboard",
      "",
      "Pronto: a tela de quem decide, sem uma linha de código",
      "além do SQL que vocês já sabiam escrever."], tag="DASH")
-note(s, "FACA O 1o CARTAO VOCE, devagar, projetado — os cliques sao pequenos e o caminho de menu confunde. Do 2o em diante a turma acompanha no proprio ritmo enquanto voce circula. Nomeie os cartoes com nomes de gente (Total de pedidos, Em risco hoje) — e o que aparece no dashboard. O auto-refresh vem dois slides adiante, no momento da honestidade.")
+note(s, "FACA O 1o CARTAO VOCE, devagar, projetado — os cliques sao pequenos e o caminho de menu confunde. Do 2o em diante a turma acompanha no proprio ritmo — fique de olho no chat. Nomeie os cartoes com nomes de gente (Total de pedidos, Em risco hoje) — e o que aparece no dashboard. O auto-refresh vem dois slides adiante, no momento da honestidade.")
 
 s = slide_hook("O momento da aula",
     ["▶ executa o workflow no n8n",
