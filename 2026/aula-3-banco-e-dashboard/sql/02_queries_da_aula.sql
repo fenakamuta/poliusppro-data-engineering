@@ -48,7 +48,8 @@ DELETE FROM pedidos WHERE pedido_id = 'abc';
 --   COMMIT;
 
 -- ============================================================
--- BLOCO 3 — o SQL dos 4 cartoes do dashboard "Pedidos em risco"
+-- BLOCO 3 — o SQL dos cartoes do dashboard "Pedidos em risco"
+-- (versao dedicada, pronta para o Metabase: 05_dashboard_queries.sql)
 -- ============================================================
 
 -- 1) total de pedidos  (e ESTE que sobe no momento ao vivo)

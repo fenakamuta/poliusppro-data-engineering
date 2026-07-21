@@ -70,6 +70,7 @@ docker compose exec postgres psql -U aluno -d olist       # entra no banco
 | [`docker-compose.yml`](./docker-compose.yml) | Postgres (`:5432`) + Metabase (`:3000`) com um comando |
 | [`sql/01_create_table.sql`](./sql/01_create_table.sql) | O schema da tabela `pedidos` |
 | [`sql/02_queries_da_aula.sql`](./sql/02_queries_da_aula.sql) | Todas as queries, na ordem da aula |
+| [`sql/05_dashboard_queries.sql`](./sql/05_dashboard_queries.sql) | Só o SQL dos 5 cartões do dashboard, pronto para colar no Metabase |
 | [`carga.py`](./carga.py) | Carrega o Parquet (com `risco_review`) na tabela |
 | [`api-pedidos/`](./api-pedidos/) | API que devolve pedidos novos — o que o n8n coleta |
 | [`n8n-workflow-aula3.json`](./n8n-workflow-aula3.json) | O workflow pronto para importar no n8n |
