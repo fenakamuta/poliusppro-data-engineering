@@ -408,10 +408,6 @@ ax.plot([61, 63.6], [16, 16], color=N8N, lw=2)
 ax.text(61, 8, "todo dia, 8h", ha="center", fontsize=10.5, color=N8N)
 box(ax, 71, 11.5, 21, 9, "coleta -> INSERT", N8N, fs=11.5)
 seta(ax, 66.2, 16, 70.2, 16, cor=N8N)
-# loop de volta
-ax.add_patch(FancyArrowPatch((81, 11), (61, 11.2), connectionstyle="arc3,rad=0.5",
-                             arrowstyle="-|>", mutation_scale=16, linewidth=1.8,
-                             color=N8N, linestyle=(0, (4, 3))))
 ax.text(75, 5, "com você dormindo. Isso é um serviço.", ha="center",
         fontsize=10.5, color=N8N)
 f.savefig(OUT / "d12_script_servico.png", bbox_inches="tight", transparent=True)

@@ -63,6 +63,19 @@ def set_title(slide, text):
     _fmt_run(r, size=34, bold=True)
 
 
+def _sem_bullet(p):
+    """Desliga o marcador de lista que o layout aplica ao parágrafo."""
+    pPr = p._pPr
+    if pPr is None:
+        pPr = p._p.get_or_add_pPr()
+    for bu in ("a:buChar", "a:buAutoNum", "a:buNone"):
+        for el in pPr.findall(qn(bu)):
+            pPr.remove(el)
+    pPr.append(pPr.makeelement(qn("a:buNone"), {}))
+    pPr.set("indent", "0")
+    pPr.set("marL", "0")
+
+
 def fill_body(ph, lines, size=20, align=PP_ALIGN.LEFT):
     tf = ph.text_frame
     tf.clear()
@@ -72,6 +85,7 @@ def fill_body(ph, lines, size=20, align=PP_ALIGN.LEFT):
         r = p.add_run()
         r.text = ln
         _fmt_run(r, size=size)
+        _sem_bullet(p)
 
 
 def add_tag(slide, label):
@@ -152,10 +166,10 @@ def slide_diagram(title, img, caption=None, tag=None):
     path = ASSETS / img
     with Image.open(path) as im:
         prop = im.height / im.width
-    max_w, max_h = 9.20, (3.42 if caption else 3.95)
+    max_w, max_h = 9.20, (3.32 if caption else 3.85)
     w = max_w if max_w * prop <= max_h else max_h / prop
     h = w * prop
-    s.shapes.add_picture(str(path), Inches((10 - w) / 2), Inches(1.22 + (max_h - h) / 2),
+    s.shapes.add_picture(str(path), Inches((10 - w) / 2), Inches(1.32 + (max_h - h) / 2),
                          width=Inches(w))
     if caption:
         box = s.shapes.add_textbox(Inches(0.50), Inches(4.85), Inches(9.00), Inches(0.55))
@@ -205,6 +219,9 @@ def tokenize(line):
 def slide_code(title, code_lines, tag=None, size=15):
     s = new_slide("OBJECT")
     set_title(s, title)
+    # remove o placeholder de corpo vazio (nao usado nos slides de codigo)
+    ph = s.placeholders[1]
+    ph._element.getparent().remove(ph._element)
     # janela escura
     win = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
                              Inches(0.60), Inches(1.55), Inches(8.80), Inches(3.40))
@@ -265,7 +282,7 @@ note(s, "Recap das duas aulas em 30 segundos — e a PONTE com o notebook de rev
 s = slide_object("Os termos de hoje",
     ["Não precisa decorar nada disto agora.",
      "São as palavras que vão aparecer hoje —",
-     "eu traduzo cada uma na hora:",
+     "cada uma é traduzida na hora:",
      "",
      "container · imagem · volume        (o Docker)",
      "tabela · schema · chave primária · índice  (o banco)",
@@ -289,8 +306,8 @@ s = slide_diagram("O que vamos construir hoje", "d1_mapa.png",
     caption="Guarde este mapa: cada pedaço vira um bloco da aula.")
 note(s, "O MAPA DA AULA — 60 segundos aqui valem ouro. Leia da esquerda pra direita: a API tem os pedidos, o n8n coleta e entrega, o Postgres guarda, o Metabase mostra, alguem DECIDE. O reloginho em cima do n8n e o 'sozinho' do titulo. Volte neste mapa na abertura de cada bloco: 'estamos AQUI'.")
 
-s = slide_hook("Pra que um banco, se o DuckDB é rápido?",
-    ["Essa é a pergunta do dia.", "", "No fim do Bloco 1 ela se responde sozinha."], tag="BANCO")
+s = slide_hook("Pra que um banco de dados?",
+    ["Se o DuckDB é rápido, pra que um servidor?", "", "Essa é a pergunta do dia.", "No fim do Bloco 1 ela se responde sozinha."], tag="BANCO")
 note(s, "A provocação central. NÃO responda agora — os próximos quatro slides são a resposta, e o recap do bloco 1 amarra.")
 
 # ---------------- BLOCO 1 ----------------
@@ -309,16 +326,16 @@ s = slide_object("Num arquivo, isso não fecha",
      "Arquivo é dado parado, com um dono."], tag="BANCO")
 note(s, "Os três furos do arquivo como destino de pipeline. Faça as três perguntas em voz alta e espere a turma responder. Concreto, com o Olist.")
 
-s = slide_diagram("Banco é dado vivo, com muitos donos", "d2_arquivo_vs_banco.png",
+s = slide_diagram("Banco: dado vivo, muitos donos", "d2_arquivo_vs_banco.png",
     caption="Planilha por e-mail vs. Google Sheets: todo mundo na mesma base, ao vivo.",
     tag="BANCO")
 note(s, "FALE por cima do diagrama: um banco e um servidor SEMPRE LIGADO — varios sistemas leem e escrevem ao mesmo tempo, cada um ve o dado atualizado na hora. A analogia e-mail vs Google Sheets e a que pega: todo mundo de operacoes ja viveu o inferno do 'planilha_v3_final_REVISADA.xlsx'. Feche apontando o lado direito: o n8n grava ENQUANTO o Metabase le — isso se chama concorrencia.")
 
-s = slide_diagram("DuckDB ou Postgres? Depende do problema", "d7_olap_oltp.png",
+s = slide_diagram("DuckDB ou Postgres?", "d7_olap_oltp.png",
     caption="Não é qual é melhor — é qual para qual problema.", tag="BANCO")
 note(s, "Abra as siglas POR CIMA do diagrama: OLAP = processamento ANALITICO (DuckDB, Aula 1: um arquivo, um usuario, roda e morre — poucas perguntas varrendo muito dado). OLTP = processamento TRANSACIONAL (Postgres, hoje: servidor ligado, muitos usuarios — muitas operacoes pequenas e simultaneas). Callback a licao da Aula 1: a ferramenta certa para o problema. CORTAVEL: se o Bloco 1 estiver atrasado, resuma em uma frase (arquivo para analisar, servidor para operar).")
 
-s = slide_object("O problema: “na minha máquina funciona”",
+s = slide_object("“Na minha máquina funciona”",
     ["Para o banco de hoje rodar, a máquina precisa de:",
      "Postgres na versão certa, configurado certo,",
      "com as dependências certas — e o mesmo pro Metabase.",
@@ -330,7 +347,7 @@ s = slide_object("O problema: “na minha máquina funciona”",
      "Esse é o problema que o Docker resolve."], tag="DOCKER")
 note(s, "Problema ANTES da ferramenta. A frase 'na minha máquina funciona' é a mais cara da computação — quem já pediu um relatório pro TI e ouviu 'aqui abre normal' conhece. Deixe o problema doer um pouco antes de apresentar a solução no próximo slide.")
 
-s = slide_diagram("Docker: o container de navio do software", "d5_navio.png",
+s = slide_diagram("Docker: o container de navio", "d5_navio.png",
     caption="Empacota o programa com TUDO que ele precisa numa caixa padrão — e qualquer máquina roda.",
     tag="DOCKER")
 note(s, "A analogia e feita para ESTA turma: gente de operacoes e logistica. Antes do container, cada carga era um problema — saca, barril, caixote, cada navio um quebra-cabeca. O container padronizou a CAIXA: nao importa o que tem dentro, qualquer navio e guindaste levam. Foi uma das maiores revolucoes de produtividade da logistica — e o Docker fez o MESMO com software (por isso o nome e o logo: uma baleia carregando containers). Fechamento: por isso o setup de casa foi 'instale o Docker', nao 'instale o Postgres' — instala-se o transportador uma vez, e ele carrega qualquer caixa.")
@@ -340,7 +357,7 @@ s = slide_diagram("Imagem, container e volume", "d3_imagem_container_volume.png"
     tag="DOCKER")
 note(s, "Tres palavras, um desenho. Imagem: o molde da caixa, baixa uma vez (docker pull). Container: a caixa rodando, criada do molde — DESCARTAVEL: apagou, some o que tinha dentro. Volume: a pasta que fica FORA da caixa, onde o dado sobrevive ao docker compose down. Volume e o que o aluno mais erra em casa: derruba a stack e acha que o banco sumiu. Aponte a linha volumes: no proximo slide.")
 
-s = slide_code("A stack num arquivo: docker-compose.yml",
+s = slide_code("A stack: docker-compose.yml",
     ["services:",
      "  postgres:                 # o banco  <- lembre deste nome",
      "    image: postgres:16",
@@ -369,7 +386,7 @@ s = slide_code("Subir a stack e falar com ela",
      "# host = a maquina onde o banco esta; aqui, a sua"], tag="DOCKER", size=13)
 note(s, "Dois comandos, um momento so: sobe e conversa. Sem o psql eles nao sabem ONDE digitar o SQL dos proximos slides. Quem nao tiver o repo: git clone https://github.com/fenakamuta/poliusppro-data-engineering (ou Download ZIP no site). Quem preferir clique: DBeaver, TablePlus ou pgAdmin, com host localhost, porta 5432, aluno/aula3/olist. PLANO B: quem nao baixou as imagens leva uns 20 min de pull na wi-fi da sala — mande acompanhar o colega do lado e siga; nao pare a turma.")
 
-s = slide_object("Do Parquet para uma tabela de verdade",
+s = slide_object("Do Parquet para a tabela",
     ["O Olist de hoje vem com uma coluna a mais: risco_review,",
      "preenchida pelo modelo que vocês treinaram na Aula 2.",
      "",
@@ -380,7 +397,7 @@ s = slide_object("Do Parquet para uma tabela de verdade",
      "derruba a nota, então vamos agir ANTES da nota chegar."], tag="OLIST")
 note(s, "Responda a dúvida antes que ela apareça: a predição é um presente já pronto, ninguém precisa refazer a Aula 2. E amarre no negócio: atraso -> review ruim (2.4 vs 4.3) é a razão de a coluna existir.")
 
-s = slide_code("CREATE TABLE: declare antes de aceitar",
+s = slide_code("CREATE TABLE: declare antes",
     ["CREATE TABLE pedidos (",
      "    pedido_id       text     PRIMARY KEY,  -- identidade unica",
      "    estado          text     NOT NULL,     -- obrigatorio",
@@ -415,7 +432,7 @@ s = slide_code("Carregar o Parquet na tabela",
      "conn.commit()                         # so agora esta gravado"], tag="BANCO", size=11)
 note(s, "ESTE CODIGO E O carga.py DO REPO. NAO digite nada: explique as linhas na tela e mande a TURMA RODAR O SCRIPT PRONTO agora — python carga.py (ele baixa o Parquet do Release sozinho, ~4 MB, e carrega 96.470 linhas). SEM ESTA CARGA O RESTO DA AULA NAO TEM DADO — o EXPLAIN, o count ao vivo e o dashboard dependem dela. Se falhar em alguem (ambiente Python), forma dupla com o colega e resolve no intervalo. psycopg2 e pyarrow ja estao no requirements.txt do curso. ARMADILHA REAL (testada): review_score vem vazio em parte dos pedidos, o pandas traz NaN, e o Postgres recusa NaN em coluna integer — a linha do where() converte NaN em NULL. E a licao de dado sujo da Aula 2 na pratica. A lista cols e usada duas vezes — ordenar o dataframe E nomear as colunas do INSERT. O commit no fim e a deixa para o slide de transacao.")
 
-s = slide_code("O mesmo SQL da Aula 1 — só mudou o FROM",
+s = slide_code("O mesmo SQL da Aula 1",
     ["-- AULA 1 (DuckDB, direto no arquivo):",
      "SELECT delivered_late, round(avg(review_score), 2) AS score",
      "FROM 'data/olist.parquet'",
@@ -427,12 +444,12 @@ s = slide_code("O mesmo SQL da Aula 1 — só mudou o FROM",
      "GROUP BY delivered_late;"], tag="BANCO", size=13)
 note(s, "Esta é A query da Aula 1 — a que revelou atraso -> review ruim (2.4 vs 4.3). ATENÇÃO AO NÚMERO: nesta tabela (deduplicada por pedido) a tela vai imprimir 2.27 vs 4.29 — mesmo fenômeno, recorte um pouco diferente; diga isso em meia frase se alguém notar. Mostre que só a linha do FROM mudou. Mensagem: SQL é portátil; muda o motor, não a linguagem.")
 
-s = slide_diagram("Índice: o índice remissivo do banco", "d6_indice.png",
+s = slide_diagram("Índice: o índice remissivo", "d6_indice.png",
     caption="Como achar uma palavra num livro: ler tudo, ou ir direto pelo índice remissivo.",
     tag="BANCO")
 note(s, "Sem indice, para achar 'SP' o banco le a tabela INTEIRA — como ler o livro todo atras de uma palavra. O indice e o indice remissivo do fim do livro: 'SP: paginas 3, 47, 112' — vai direto. Custa espaco e deixa a escrita um tiquinho mais lenta; quase sempre vale.")
 
-s = slide_code("EXPLAIN: o banco mostra o plano dele",
+s = slide_code("EXPLAIN: o plano do banco",
     ["EXPLAIN ANALYZE SELECT * FROM pedidos WHERE estado = 'SP';",
      "",
      "  Seq Scan on pedidos               <- le as 96.470 linhas",
@@ -457,7 +474,7 @@ s = slide_object("JOGO: Adivinhe o plano",
 note(s, "ATIVIDADE ELASTICA (5-15 min) — use para ganhar tempo, corte sem do se atrasar. GABARITO TESTADO no dado real: 1) indice (Bitmap Index Scan em idx_estado); 2) Index Scan puro na PRIMARY KEY — todo PRIMARY KEY ganha indice de graca; 3) Seq Scan — nao ha indice em preco; 4) usa o indice do ESTADO e filtra preco depois; 5) Seq Scan — count(*) sem WHERE le a tabela inteira, indice nao ajuda. Mao levantada a cada rodada; quem errar menos leva a gloria. A mensagem que fica: o banco ESCOLHE o plano, e o EXPLAIN mostra a escolha.")
 
 s = slide_hook("Recap do Bloco 1",
-    ["Lá atrás eu perguntei: pra que um banco?",
+    ["A pergunta que abriu o bloco: pra que um banco?",
      "",
      "Porque análise congelada cabe num arquivo,",
      "mas operação viva, com muita gente mexendo",
@@ -517,7 +534,7 @@ s = slide_object("Cuidado: rode o n8n local",
      "Local fala com local."], tag="n8n")
 note(s, "PEGADINHA — anuncie ANTES de todo mundo começar a montar, não depois do erro. Pergunte quem está no n8n.cloud e resolva agora.")
 
-s = slide_code("De onde vêm os pedidos? A API do repo",
+s = slide_code("De onde vêm os pedidos?",
     ["# o papel do sistema da empresa (ERP / e-commerce)",
      "# esta na pasta api-pedidos do repositorio:",
      "cd api-pedidos",
@@ -535,7 +552,7 @@ s = slide_diagram("O workflow, ponta a ponta", "d8_workflow.png",
     tag="n8n")
 note(s, "Monte ao vivo — e IMPORTANTE: antes, suba a API de pedidos do repo (pasta api-pedidos: uvicorn main:app --port 8001). O HTTP Request chama GET http://localhost:8001/pedidos e recebe 10 pedidos novos por execucao, com id inedito (pode executar quantas vezes quiser, nunca duplica PK). Os 3 primeiros blocos vieram da Aula 2 — retome a analogia do garcom. O bloco Postgres e a novidade. Tem um workflow pronto para importar no repo: n8n-workflow-aula3.json (so criar a credencial do Postgres).")
 
-s = slide_code("Por baixo do bloco: é só um INSERT",
+s = slide_code("Por baixo do bloco: um INSERT",
     ["-- o que o node Postgres executa, para cada item",
      "-- que a API devolveu:",
      "",
@@ -577,7 +594,7 @@ note(s, "Tente inserir lixo AO VIVO e mostre o Postgres recusando. Ver o erro ac
 
 s = slide_object("JOGO: Quebre o banco",
     ["Desafio: inventem um INSERT que passe",
-     "lixo pela porta. Eu digito, o banco julga.",
+     "lixo pela porta. A turma dita, o banco julga.",
      "",
      "Spoiler: alguém vai conseguir —",
      "e é aí que a aula fica boa.",
@@ -590,7 +607,7 @@ s = slide_diagram("Ou tudo, ou nada: transação", "d10_transacao.png",
     tag="BANCO")
 note(s, "Uma transacao agrupa operacoes numa coisa so: ou todas valem, ou nenhuma. Se a luz cai no meio da carga, o banco nao fica pela metade — desfaz e volta ao inicio. Abra a sigla ACID (esta na caption) — sem isso e decoreba. O exemplo classico em codigo esta no proximo slide.")
 
-s = slide_code("A transferência que não pode dar errado",
+s = slide_code("A transferência, em código",
     ["-- ilustracao classica: a tabela contas NAO existe no olist",
      "BEGIN;",
      "",
@@ -648,7 +665,7 @@ s = slide_object("A primeira pergunta, sem SQL",
      "Agora clique em ver o SQL que ele gerou…"], tag="DASH")
 note(s, "Construtor visual primeiro. O 'clique para ver o SQL' prepara a revelação do próximo slide.")
 
-s = slide_code("O SQL que o Metabase escreveu por você",
+s = slide_code("O SQL que o Metabase escreveu",
     ["SELECT estado, count(*) AS pedidos",
      "FROM pedidos",
      "GROUP BY estado",
@@ -666,7 +683,6 @@ s = slide_object("O dashboard “Pedidos em risco”",
      "• risco por estado · risco por categoria",
      "• a lista dos piores — para o time atacar amanhã",
      "",
-     "No Metabase: + Novo → SQL → cole → Salvar → dashboard.",
      "Lembre por que isso importa: atraso vira nota 2.4."], tag="DASH")
 note(s, "Este é o entregável da aula. Amarre no negócio (a descoberta da Aula 1): não é um gráfico bonito, é uma lista de pedidos para alguém salvar amanhã de manhã. NUMEROS REAIS do dado carregado: 96.470 pedidos no total, 19.424 em risco (20,1%), e o estado com mais risco é SP (6.686).")
 
@@ -686,6 +702,17 @@ s = slide_code("O SQL por trás dos cartões",
      "WHERE risco_review ORDER BY prazo_dias DESC LIMIT 20;"], tag="DASH", size=12)
 note(s, "Deixe este slide na tela enquanto eles montam os cartoes. Cada cartao e uma pergunta — e toda pergunta vira SQL. ATENCAO: o cartao 1 (total, sem WHERE) e o que voce vai usar no momento ao vivo — os pedidos que o n8n insere entram sem risco_review preenchido, entao os cartoes com WHERE risco_review NAO se movem.")
 
+s = slide_object("Montando o dashboard",
+    ["1.  + Novo → Consulta SQL → cole o 1º SQL → Salvar",
+     "     (nome: Total de pedidos)",
+     "2.  Salvar em → Novo dashboard: Pedidos em risco",
+     "3.  Repita para os outros quatro cartões",
+     "4.  Arraste, redimensione, Salvar",
+     "",
+     "Pronto: a tela de quem decide, sem uma linha de código",
+     "além do SQL que vocês já sabiam escrever."], tag="DASH")
+note(s, "FACA O 1o CARTAO VOCE, devagar, projetado — os cliques sao pequenos e o caminho de menu confunde. Do 2o em diante a turma acompanha no proprio ritmo enquanto voce circula. Nomeie os cartoes com nomes de gente (Total de pedidos, Em risco hoje) — e o que aparece no dashboard. O auto-refresh vem dois slides adiante, no momento da honestidade.")
+
 s = slide_hook("O momento da aula",
     ["▶ executa o workflow no n8n",
      "↻ volta ao dashboard e aperta F5",
@@ -696,8 +723,8 @@ s = slide_hook("O momento da aula",
      "apareceu no gráfico. Você não tocou em nada."], tag="DASH")
 note(s, "NUNCA CORTE ISTO — e a aula inteira num gesto. Use o cartao TOTAL DE PEDIDOS, nao o de risco: os pedidos que chegam pela API entram sem a coluna risco_review preenchida (o modelo nao roda ao vivo), entao o contador de risco nao se move. Ajuste os numeros ao que aparecer na tela. Deixe a turma ver o numero mudar antes de falar qualquer coisa — e guarde a pergunta obvia (quem preve o risco desse pedido novo?) para o gancho da Aula 4.")
 
-s = slide_object("Sendo honesto: o que é automático aqui?",
-    ["O F5 fui eu que apertei. Então o que roda sozinho?",
+s = slide_object("O que é automático aqui?",
+    ["O F5 foi apertado na mão. Então, o que roda sozinho?",
      "",
      "A COLETA: o Schedule Trigger põe dado novo no banco",
      "às 8h, com você dormindo.",
@@ -708,7 +735,7 @@ s = slide_object("Sendo honesto: o que é automático aqui?",
      "E repare: o contador de RISCO não se moveu. Guarde isso."], tag="DASH")
 note(s, "Honestidade intelectual: um aluno atento vai notar que o F5 é manual e sentir que 'se atualiza sozinho' foi exagero. Antecipe isso — e mostre o auto-refresh do Metabase ao vivo se der tempo.")
 
-s = slide_object("E na nuvem? Supabase, em um slide",
+s = slide_object("E na nuvem? Supabase",
     ["O Supabase é o mesmo Postgres que você subiu —",
      "só que hospedado por alguém, na nuvem.",
      "",
@@ -718,7 +745,7 @@ s = slide_object("E na nuvem? Supabase, em um slide",
      "Muda a string de conexão. Não muda o SQL."], tag="BANCO")
 note(s, "Callback forte: o jogo 'Você vs. a Máquina' da Aula 2 rodava em cima de um Supabase, com um CREATE TABLE igualzinho ao do Bloco 1. Candidato a corte se o tempo apertar.")
 
-s = slide_code("A string de conexão: local vs. nuvem",
+s = slide_code("A string de conexão",
     ["# hoje, no seu Docker:",
      "postgresql://aluno:aula3@localhost:5432/olist",
      "",
