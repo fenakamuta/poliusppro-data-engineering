@@ -49,3 +49,7 @@ Thumbs.db
 # Misc
 *.log
 .env
+
+# dados baixados dos Releases (nao versionar)
+olist_com_risco.parquet
+olist.parquet
