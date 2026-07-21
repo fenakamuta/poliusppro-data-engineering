@@ -1,0 +1,42 @@
+# Aula 3 — Postgres + Metabase
+#
+# Subir:   docker compose up -d
+# Derrubar: docker compose down
+# Apagar tudo (inclusive os dados): docker compose down -v
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: aula3-postgres
+    environment:
+      POSTGRES_USER: aluno
+      POSTGRES_PASSWORD: aula3
+      POSTGRES_DB: olist
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aluno -d olist"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: aula3-metabase
+    environment:
+      # Metabase guarda as configurações dele (dashboards, usuários) neste arquivo.
+      # Sem isto, tudo se perde a cada 'docker compose down'.
+      MB_DB_FILE: /metabase-data/metabase.db
+    ports:
+      - "3000:3000"
+    volumes:
+      - metabase-data:/metabase-data
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  metabase-data:
