@@ -53,3 +53,4 @@ Thumbs.db
 # dados baixados dos Releases (nao versionar)
 olist_com_risco.parquet
 olist.parquet
+modelo_risco.joblib

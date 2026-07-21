@@ -82,8 +82,16 @@ def main():
     })
     out.to_parquet(OUT_PATH, index=False)
 
+    # salva o modelo para o endpoint /prever da api-pedidos usar ao vivo
+    import joblib
+    destino = pathlib.Path("api-pedidos/modelo_risco.joblib")
+    if not destino.parent.exists():
+        destino = pathlib.Path("modelo_risco.joblib")
+    joblib.dump(modelo, destino)
+
     total, risco = len(out), int(out["risco_review"].sum())
     print(f"OK: {OUT_PATH} — {total} pedidos, {risco} em risco ({risco / total:.1%}).")
+    print(f"OK: modelo salvo em {destino} (usado pelo POST /prever da api-pedidos)")
 
 
 if __name__ == "__main__":

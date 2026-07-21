@@ -22,7 +22,8 @@ import urllib.request
 import uuid
 
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 OLIST_URL = ("https://github.com/fenakamuta/poliusppro-data-engineering/"
              "releases/download/aula1-olist-2026-v1/olist.parquet")
@@ -48,6 +49,46 @@ def carregar():
 @app.get("/")
 def home():
     return {"servico": "API de Pedidos da Aula 3", "use": "GET /pedidos"}
+
+
+MODELO_PATH = pathlib.Path("modelo_risco.joblib")
+modelo = None
+
+
+class PedidoNovo(BaseModel):
+    """Um pedido para o modelo julgar. So mude o que quiser; o resto tem padrao."""
+    texto: str = ""            # o comentario do cliente (se ja existir)
+    preco: float = 100.0
+    frete: float = 15.0
+    dias_entrega: int = 12
+    dias_estimado: int = 15
+    atrasou: int = 0
+    estado: str = "SP"
+    categoria: str = "housewares"
+
+
+@app.post("/prever")
+def prever(pedido: PedidoNovo):
+    """O MESMO modelo que preencheu a coluna risco_prob da tabela — ao vivo.
+
+    (Spoiler da Aula 4: e isto que falta no pipeline de hoje.)
+    """
+    global modelo
+    if modelo is None:
+        if not MODELO_PATH.exists():
+            raise HTTPException(503, "Modelo nao encontrado — rode ../gerar_parquet_risco.py "
+                                     "(ele salva o modelo_risco.joblib aqui)")
+        import joblib
+        modelo = joblib.load(MODELO_PATH)
+    linha = pd.DataFrame([{
+        "texto": pedido.texto.lower(),
+        "preco": pedido.preco, "frete": pedido.frete,
+        "dias_entrega": pedido.dias_entrega, "dias_estimado": pedido.dias_estimado,
+        "atrasou": pedido.atrasou, "estado": pedido.estado, "categoria": pedido.categoria,
+    }])
+    prob_satisfeito = float(modelo.predict_proba(linha)[0][1])
+    risco_prob = round(1 - prob_satisfeito, 4)
+    return {"risco_prob": risco_prob, "risco_review": risco_prob >= 0.5}
 
 
 @app.get("/pedidos")
