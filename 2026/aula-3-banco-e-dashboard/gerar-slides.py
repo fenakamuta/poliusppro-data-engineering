@@ -511,8 +511,22 @@ s = slide_object("Cuidado: rode o n8n local",
      "Local fala com local."], tag="n8n")
 note(s, "PEGADINHA — anuncie ANTES de todo mundo começar a montar, não depois do erro. Pergunte quem está no n8n.cloud e resolva agora.")
 
+s = slide_code("De onde vêm os pedidos? A API do repo",
+    ["# o papel do sistema da empresa (ERP / e-commerce)",
+     "# esta na pasta api-pedidos do repositorio:",
+     "cd api-pedidos",
+     "pip install -r requirements.txt",
+     "uvicorn main:app --port 8001",
+     " ",
+     "# cada chamada devolve 10 pedidos NOVOS:",
+     "# GET http://localhost:8001/pedidos",
+     "# [{'id': 'novo-a1b2c3', 'customer_state': 'SP',",
+     "#   'category': 'housewares', 'price': 89.9, ...}]"], tag="n8n", size=13)
+note(s, "Na vida real esse papel e do ERP/e-commerce da empresa; aqui, uma API do repo que sorteia pedidos reais do Olist com id sempre NOVO — por isso da para executar o workflow quantas vezes quiser sem duplicar PRIMARY KEY. Suba ANTES de montar o workflow e abra localhost:8001/pedidos no navegador para todos verem o JSON.")
+
 s = slide_diagram("O workflow, ponta a ponta", "d8_workflow.png",
-    caption="Quatro blocos: o garçom traz, o Edit Fields arruma, o banco guarda.", tag="n8n")
+    caption="Quatro blocos: o garçom pede em localhost:8001/pedidos, o Edit Fields arruma, o banco guarda.",
+    tag="n8n")
 note(s, "Monte ao vivo — e IMPORTANTE: antes, suba a API de pedidos do repo (pasta api-pedidos: uvicorn main:app --port 8001). O HTTP Request chama GET http://localhost:8001/pedidos e recebe 10 pedidos novos por execucao, com id inedito (pode executar quantas vezes quiser, nunca duplica PK). Os 3 primeiros blocos vieram da Aula 2 — retome a analogia do garcom. O bloco Postgres e a novidade. Tem um workflow pronto para importar no repo: n8n-workflow-aula3.json (so criar a credencial do Postgres).")
 
 s = slide_code("Por baixo do bloco: é só um INSERT",
