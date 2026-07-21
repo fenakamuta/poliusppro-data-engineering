@@ -461,7 +461,12 @@ s = slide_code("EXPLAIN: o plano do banco",
      "-- rode o EXPLAIN de novo:",
      "",
      "  Bitmap Index Scan on idx_estado    <- usa o indice"], tag="BANCO", size=13)
-note(s, "TESTADO com o dado real: o plano novo aparece como 'Bitmap Heap Scan' com um 'Bitmap Index Scan on idx_estado' dentro — o nome exato varia, o que importa e que o Seq Scan SUMIU e o idx_estado aparece. Nao prometa relogio: em tabela deste tamanho o tempo pode nao cair visivelmente; o que sempre muda e o PLANO.")
+note(s, "TESTADO com o dado real: o plano novo aparece como 'Bitmap Heap Scan' com um 'Bitmap Index Scan on idx_estado' dentro — o nome exato varia, o que importa e que o Seq Scan SUMIU e o idx_estado aparece. Nao prometa relogio: em tabela deste tamanho o tempo pode nao cair visivelmente; o que sempre muda e o PLANO. O PROXIMO SLIDE desintimida o log — nao explique tudo aqui.")
+
+s = slide_diagram("EXPLAIN sem medo", "d15_explain.png",
+    caption="No log inteiro, procure UMA coisa: “Seq Scan” = leu tudo · o nome do seu índice = foi direto.",
+    tag="BANCO")
+note(s, "O slide-calmante: o log do EXPLAIN intimida, e este desenho da a regra de leitura em 5 segundos — ignore custos, tempos e condicoes; procure Seq Scan OU o nome do indice. Se perguntarem o que e o 'cost': 'a regua interna do banco para comparar estrategias — quanto menor, mais barato; nao e tempo'. E siga.")
 
 s = slide_object("JOGO: Adivinhe o plano",
     ["Cinco queries. Antes de cada EXPLAIN, vote:",
