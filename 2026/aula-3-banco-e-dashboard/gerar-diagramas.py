@@ -442,3 +442,48 @@ ax.text(77, 3.5, "mostra — não guarda nada", ha="center", fontsize=10.5, colo
 seta(ax, 27.5, 19, 60.5, 19, "SELECT, sempre ao vivo", cor=CINZA, fs=11)
 f.savefig(OUT / "d14_geladeira_vitrine.png", bbox_inches="tight", transparent=True)
 plt.close(f)
+
+# ============================================================
+# D15 — EXPLAIN sem medo: o que olhar no log intimidador
+# ============================================================
+f, ax = fig_ax(13, 5.0)
+H = 100 * 5.0 / 13
+MONO = "DejaVu Sans Mono"
+
+def log_box(x, w, titulo, cor_t, linhas, destaque_idx):
+    ax.text(x + w / 2, H - 3.5, titulo, ha="center", fontsize=13, color=cor_t)
+    ax.add_patch(FancyBboxPatch((x, 7), w, 24, boxstyle="round,pad=0.6,rounding_size=1.4",
+                                edgecolor=CINZA, facecolor="#1E1E2E", linewidth=2.2))
+    for i, ln in enumerate(linhas):
+        y = 27.5 - i * 3.6
+        eh = i == destaque_idx
+        ax.text(x + 2, y, ln, fontsize=8.2, color=("#FFD43B" if eh else "#8B93A7"),
+                family=MONO, fontweight="bold" if eh else "normal",
+                path_effects=[])
+        if eh:
+            from matplotlib.patches import Ellipse
+            ax.add_patch(Ellipse((x + w / 2, y + 0.6), w * 0.96, 4.6, fill=False,
+                                 edgecolor=cor_t, linewidth=2.6))
+
+log_box(3, 42, "ANTES do índice", ERRO,
+        ["Seq Scan on pedidos (cost=0.00..2484)",
+         "  Filter: (estado = 'SP')",
+         "  Rows Removed by Filter: 55986",
+         "Planning Time: 0.322 ms",
+         "Execution Time: 7.352 ms"], 0)
+log_box(55, 42, "DEPOIS do índice", OLIST,
+        ["Bitmap Heap Scan on pedidos (cost=458..)",
+         "  Recheck Cond: (estado = 'SP')",
+         "  -> Bitmap Index Scan on idx_estado",
+         "     Index Cond: (estado = 'SP')",
+         "Execution Time: 5.098 ms"], 2)
+
+ax.text(24, 4.2, "achou “Seq Scan”?\nele leu a tabela INTEIRA", ha="center",
+        fontsize=11.5, color=ERRO)
+ax.text(76, 4.2, "achou o nome do SEU índice?\nele foi DIRETO", ha="center",
+        fontsize=11.5, color=OLIST)
+ax.text(50, H - 1.5,
+        "o resto do log é contabilidade interna do banco — pode ignorar",
+        ha="center", fontsize=12, color=CINZA)
+f.savefig(OUT / "d15_explain.png", bbox_inches="tight", transparent=True)
+plt.close(f)
