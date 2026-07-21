@@ -73,8 +73,6 @@ docker compose exec postgres psql -U aluno -d olist       # entra no banco
 | [`carga.py`](./carga.py) | Carrega o Parquet (com `risco_review`) na tabela |
 | [`api-pedidos/`](./api-pedidos/) | API que devolve pedidos novos — o que o n8n coleta |
 | [`n8n-workflow-aula3.json`](./n8n-workflow-aula3.json) | O workflow pronto para importar no n8n |
-| [`gerar_parquet_risco.py`](./gerar_parquet_risco.py) | (professor) gera o `olist_com_risco.parquet` do Release |
-| [`gerar-slides.py`](./gerar-slides.py) + [`assets-slides/`](./assets-slides/) | (professor) gera o deck da aula |
 
 > Dependências Python: já estão no [`requirements.txt`](../requirements.txt) do curso
 > (`psycopg2-binary`, `pyarrow`, `pandas`). Só a `api-pedidos/` tem as suas próprias.
